@@ -10,7 +10,8 @@ const checks = [
         .not()
         .isEmpty()
         .trim()
-        .escape(),
+        .escape()
+        .custom(email => userManager.findByEmail(email).then(user => user && Promise.reject("This email already exists"))),
     check("password").isLength({ min: 8, max: 50 }),
     check("name")
         .isLength({ min: 3, max: 30 })
@@ -32,7 +33,7 @@ const existingEmail = body("email").custom(email => {
     
 })
 
-router.post("/", checks, existingEmail, async (req, res) => {
+router.post("/", checks, async (req, res) => {
     const errors = validationResult(req);
     if (!errors.isEmpty()) {
         return res.status(422).json({ errors: errors.array() });

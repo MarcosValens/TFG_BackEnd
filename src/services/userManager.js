@@ -20,7 +20,6 @@ class UserManager {
         
     }
 
-
     async findByEmail(email) {
         const userFound = await User.find({email});
         return userFound;
