@@ -1,5 +1,4 @@
 const mongoose = require('mongoose');
-const Host = require('./Host');
 
 const networkSchema = new mongoose.Schema({
     name: {

@@ -1,5 +1,4 @@
 const mongoose = require('mongoose');
-const network = require('./Network');
 const Photo = require('./Photo');
 
 const userSchema = new mongoose.Schema({
@@ -18,6 +17,7 @@ const userSchema = new mongoose.Schema({
     email: {
         type: String,
         required: true,
+        unique: true,
         min: 4,
         max: 254
     },
