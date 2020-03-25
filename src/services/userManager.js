@@ -1,5 +1,5 @@
 const data = {
-    instance
+    instance: null
 };
 const bcrypt = require("bcrypt");
 const { User } = require("./../model/");
