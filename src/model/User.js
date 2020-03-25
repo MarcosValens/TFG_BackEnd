@@ -31,6 +31,13 @@ const userSchema = new mongoose.Schema({
             Photo
         }
     },
+    googleId:{
+        type: String,
+        unique: true
+    },
+    googlePicture:{
+      type: String
+    },
     networks: [{
         type: mongoose.Schema.Types.ObjectId,
         ref: "network"
