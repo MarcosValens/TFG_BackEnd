@@ -8,6 +8,10 @@ const networkSchema = new mongoose.Schema({
     },
     gateway: {
         type: String
+    },
+    Hosts: {
+        type: [Host],
+        required: true
     }
 });
 
