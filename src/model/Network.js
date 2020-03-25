@@ -9,10 +9,10 @@ const networkSchema = new mongoose.Schema({
     gateway: {
         type: String
     },
-    Hosts: {
-        type: [Host],
-        required: true
-    }
+    Hosts: [{
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "host"
+    }]
 });
 
 const Network = mongoose.model('network', networkSchema);

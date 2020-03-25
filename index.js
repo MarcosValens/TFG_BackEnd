@@ -31,5 +31,5 @@ app.listen(port, () => {
 });
 
 // Connect to DB
-mongoose.connect(process.env.DB_CONNECT, {useNewUrlParser: true, useUnifiedTopology: true},
+mongoose.connect(process.env.MONGO_URL, {useNewUrlParser: true, useUnifiedTopology: true},
     () => console.log('Connected to DB!'));

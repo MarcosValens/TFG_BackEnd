@@ -12,7 +12,7 @@ const checks = [
     check("surname").isLength({min: 3, max: 254}).not().isEmpty()
 ]
 
-router.post("/", checks, (req, res) => {
+router.post("/", checks, async (req, res) => {
     const errors = validationResult(req);
     if (!errors.isEmpty()) {
         return res.status(422).json({errors: errors.array()});

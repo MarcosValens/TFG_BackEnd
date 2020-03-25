@@ -32,9 +32,10 @@ const userSchema = new mongoose.Schema({
             Photo
         }
     },
-    networks: {
-        type: [network]
-    }
+    networks: [{
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "network"
+    }]
 });
 
 const User = mongoose.model('user', userSchema);
