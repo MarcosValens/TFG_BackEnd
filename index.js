@@ -20,7 +20,7 @@ app.use(cors(corsOptions));
 app.use(express.urlencoded({extended: false}));
 app.use(express.json());
 
-routes.forEach(({path, router}) => app.use(path, router));
+routes.forEach(({path, router}) => app.use(`/${path}`, router));
 
 app.use((req, res) => {
     res.status(400).json({message: "Resource not found wtf?"});
