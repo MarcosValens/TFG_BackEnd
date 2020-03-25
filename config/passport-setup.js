@@ -1,6 +1,7 @@
 const passport = require("passport");
 const strategies = require("./strategies");
 const { userService } = require("./../src/services");
+
 passport.serializeUser((user, done) => {
     done(null, user.email);
 });
