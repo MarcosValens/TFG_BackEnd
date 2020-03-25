@@ -1,13 +1,13 @@
 const mongoose = require('mongoose');
 const network = require('./Network');
-const photo = require('./Photo');
+const Photo = require('./Photo');
 
 const userSchema = new mongoose.Schema({
     name: String,
     surname: String,
     email: String,
-    photo: photo,
-    network: [network]
+    photo: Photo,
+    networks: [network]
 });
 
 const User = mongoose.model('user', userSchema);

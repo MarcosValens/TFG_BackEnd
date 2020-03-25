@@ -1,10 +1,10 @@
 const mongoose = require('mongoose');
-const host = require('./Host')
+const Host = require('./Host')
 
 const networkSchema = new mongoose.Schema({
     id: String,
     ipAddress: String,
-    host: [host]
+    hosts: [Host]
 });
 
 const Network = mongoose.model('network', networkSchema);
