@@ -8,6 +8,7 @@ const port = process.env.PORT || 8000;
 
 const helmet = require("helmet");
 const cors = require("cors");
+const passport = require("passport");
 
 const corsOptions = {
     allowedHeaders: ["Authorization", "Accept", "Origin"],
@@ -19,6 +20,9 @@ app.use(helmet());
 app.use(cors(corsOptions));
 app.use(express.urlencoded({extended: false}));
 app.use(express.json());
+
+app.use(passport.initialize());
+app.use(passport.session());
 
 routes.forEach(({path, router}) => app.use(`/${path}`, router));
 
