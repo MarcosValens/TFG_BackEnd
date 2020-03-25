@@ -7,8 +7,10 @@ function isNewEmail(value) {
 
 
 const checks = [
-    check("email").isEmail().isLength({max: 254}).normalizeEmail().not().isEmpty().trim().escape().custom(isNewEmail), // TODO: Delegate this to the user manager
-    check("password").isLength({min: 8, max: 50})
+    check("email").isEmail().isLength({min: 5, max: 254}).normalizeEmail().not().isEmpty().trim().escape().custom(isNewEmail), // TODO: Delegate this to the user manager
+    check("password").isLength({min: 8, max: 50}),
+    check("name").isLength({min: 3, max: 30}).not().isEmpty(),
+    check("surname").isLength({min: 3, max: 254}).not().isEmpty()
 ]
 
 router.post("/", checks, (req, res) => {
