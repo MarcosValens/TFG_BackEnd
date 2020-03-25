@@ -21,6 +21,7 @@ router.post("/", checks, (req, res) => {
     if (!user) {
         return res.status(500).json({error: "Could not create user. Soz!"});
     }
+    await user.save();
     res.status(200).json({success: true});
 })
 
