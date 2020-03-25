@@ -1,5 +1,6 @@
 require("dotenv").config();
 
+const mongoose = require('mongoose');
 const express = require("express");
 const app = express();
 const routes = require("./src/routes");
@@ -28,3 +29,7 @@ app.use((req, res) => {
 app.listen(port, () => {
     console.log(`http://localhost:${port}`);
 });
+
+// Connect to DB
+mongoose.connect(process.env.DB_CONNECT, {useNewUrlParser: true, useUnifiedTopology: true},
+    () => console.log('Connected to DB!'));
