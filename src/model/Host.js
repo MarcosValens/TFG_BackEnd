@@ -2,9 +2,17 @@ const mongoose = require('mongoose');
 const Port = require('./Port');
 
 const hostSchema = mongoose.Schema({
-    ipAddress: String,
-    description: String,
-    ports: [Port]
+    ipAddress: {
+        type: String,
+        required: true
+    },
+    description: {
+        type: String
+    },
+    ports: {
+        type: [Port],
+        required: true
+    }
 });
 
 const Host = mongoose.model('host', hostSchema);
