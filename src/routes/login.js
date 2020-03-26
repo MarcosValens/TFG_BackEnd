@@ -36,7 +36,6 @@ router.get(
                 provider,
                 name: { givenName, familyName = "" }
             } = req.user;
-            console.log(req.user);
             let existingUser = await userManager.findByEmail(email);
             if (!existingUser) {
                 await userManager.create({
