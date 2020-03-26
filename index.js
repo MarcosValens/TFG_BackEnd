@@ -1,5 +1,6 @@
 require("dotenv").config();
 
+const path = require("path");
 const mongoose = require('mongoose');
 const express = require("express");
 const app = express();
@@ -9,6 +10,7 @@ const port = process.env.PORT || 8000;
 const helmet = require("helmet");
 const cors = require("cors");
 const passport = require("passport");
+const fileLogger = require("expressjs-file-logger");
 
 const corsOptions = {
     allowedHeaders: ["Authorization", "Accept", "Origin"],
@@ -23,7 +25,13 @@ app.use(express.json());
 
 app.use(passport.initialize());
 app.use(passport.session());
-
+app.use(fileLogger({
+    storagePath: path.join(process.cwd(), "logs"),
+    logMode: "all",
+    logFilesExtension: ".log",
+    logRequestBody: true,
+    logType: "hour"
+}))
 routes.forEach(({path, router}) => app.use(`/${path}`, router));
 
 app.use((req, res) => {
