@@ -31,9 +31,9 @@ const userSchema = new mongoose.Schema({
             Photo
         }
     },
-    googleId:{
+    createdWith:{
         type: String,
-        unique: true
+        required: true
     },
     networks: [{
         type: mongoose.Schema.Types.ObjectId,
