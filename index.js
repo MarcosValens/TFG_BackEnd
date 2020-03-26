@@ -28,7 +28,6 @@ app.use(passport.initialize());
 require("./config/passport-setup");
 
 
-
 if (process.env.MODE === "production") {
     app.use(fileLogger({
         storagePath: path.join(process.cwd(), "logs"),

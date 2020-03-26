@@ -4,7 +4,7 @@ const passport = require("passport");
 router.use(passport.authenticate("jwt"));
 
 router.post("/create", (req, res) => {
-    console.log("Here")
+    console.log(req.user)
     networkManager.create(req.network)
 });
 
