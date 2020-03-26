@@ -31,8 +31,11 @@ app.use(fileLogger({
     logFilesExtension: ".log",
     logRequestBody: true,
     logType: "hour"
-}))
-routes.forEach(({path, router}) => app.use(`/${path}`, router));
+}));
+
+if (process.env.MODE === "production") {
+    routes.forEach(({path, router}) => app.use(`/${path}`, router));
+}
 
 app.use((req, res) => {
     res.status(400).json({message: "Resource not found wtf?"});
