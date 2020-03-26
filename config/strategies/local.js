@@ -18,8 +18,12 @@ async function doLogin(email, password, done) {
         if (!user) {
             return done(null, false);
         }
+
+        if (user.createdWith !== "local") {
+            return done(null, false);
+        }
         const isValidPassword = await verifyPassword(password, user.password);
-        if (!isValidPassword || user.createdWith !== "local") {
+        if (!isValidPassword) {
             return done(null, false);
         }
         done(null, user);
