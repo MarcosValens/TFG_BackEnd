@@ -6,7 +6,7 @@ const options = {
     secretOrKey: process.env.SECRET
 };
 
-async function jwtCallback(req, payload, done) {
+async function jwtCallback(payload, done) {
     done(null, payload);
 }
 
