@@ -34,7 +34,7 @@ router.get(
             const {
                 email,
                 provider,
-                name: { givenName, familyName }
+                name: { givenName, familyName = "" }
             } = req.user;
             console.log(req.user);
             let existingUser = await userManager.findByEmail(email);
