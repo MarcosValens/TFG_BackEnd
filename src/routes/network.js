@@ -1,15 +1,15 @@
 const router = require("express").Router();
-const  networkManager  = require("./../services/");
+const { NetworkManager } = require("./../services/networkManager");
 
 router.post("/create", (req, res) => {
-    networkManager.create(req.network)
+    NetworkManager.create(req.network)
 });
 
 router.post("/update", (req, res) => {
-    networkManager.update(req.network)
+    NetworkManager.update(req.network)
 });
 
 router.post("/delete", (req, res) => {
-    networkManager.delete(req.network)
+    NetworkManager.delete(req.network)
 });
 
