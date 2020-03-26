@@ -1,5 +1,5 @@
 const router = require("express").Router();
-const { networkManager } = require("./../services/networkManager");
+const networkManager = require("./../services/networkManager");
 
 router.post("/create", (req, res) => {
     networkManager.create(req.network)
