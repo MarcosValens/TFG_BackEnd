@@ -8,6 +8,7 @@ const googleOptions = {
 };
 
 async function googleCallback(accessToken, refreshToken, profile, done) {
+    console.log(profile)
     const currentUser = await User.findOne({
         googleId: profile.id
     });
@@ -16,7 +17,7 @@ async function googleCallback(accessToken, refreshToken, profile, done) {
     } else {
         let newUser = await new User({
             name: profile.displayName,
-
+            email: profile.email,
             googleId: profile.id,
             thumbnail: profile._json.picture
         }).save();
