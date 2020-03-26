@@ -4,7 +4,6 @@ const { tokenManager } = require("./../services");
 require("./../../config/passport-setup.js")
 const passport = require("passport");
 
-// TODO: Add passport strategies
 router.post("/local", passport.authenticate("local", {session: false}), (req, res) => {
     const user = req.user;
     const token = tokenManager.create(user);
