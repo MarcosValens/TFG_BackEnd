@@ -1,7 +1,6 @@
 const router = require("express").Router();
 const { tokenManager, userManager } = require("./../services");
 
-require("./../../config/passport-setup.js");
 const passport = require("passport");
 
 router.get("/error", (req, res) => {

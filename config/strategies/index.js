@@ -1,1 +1,1 @@
-module.exports = [require("./google"), require("./local")];
+module.exports = [require("./google"), require("./local"), require("./jwt")];

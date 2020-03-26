@@ -1,7 +1,10 @@
 const router = require("express").Router();
-const { networkManager, userManager, tokenManager } = require("./../services");
+const networkManager = require("./../services/networkManager");
+const passport = require("passport");
+router.use(passport.authenticate("jwt"));
 
 router.post("/create", (req, res) => {
+    console.log("Here")
     networkManager.create(req.network)
 });
 
@@ -11,12 +14,6 @@ router.post("/update", (req, res) => {
 
 router.post("/delete", (req, res) => {
     networkManager.delete(req.network)
-});
-
-router.get("/getNetworks", (req, res) => {
-    tokenManager.
-    userManager.findByEmail(req.)
-    networkManager.getAllUserNetworks
 });
 
 module.exports = router;

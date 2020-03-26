@@ -1,5 +1,6 @@
 require("dotenv").config();
 
+
 const path = require("path");
 const mongoose = require('mongoose');
 const express = require("express");
@@ -24,18 +25,20 @@ app.use(express.urlencoded({extended: false}));
 app.use(express.json());
 
 app.use(passport.initialize());
-app.use(passport.session());
-app.use(fileLogger({
-    storagePath: path.join(process.cwd(), "logs"),
-    logMode: "all",
-    logFilesExtension: ".log",
-    logRequestBody: true,
-    logType: "hour"
-}));
+require("./config/passport-setup");
+
+
 
 if (process.env.MODE === "production") {
-    routes.forEach(({path, router}) => app.use(`/${path}`, router));
+    app.use(fileLogger({
+        storagePath: path.join(process.cwd(), "logs"),
+        logMode: "all",
+        logFilesExtension: ".log",
+        logRequestBody: true,
+        logType: "hour"
+    }));
 }
+routes.forEach(({path, router}) => app.use(`/${path}`, router));
 
 app.use((req, res) => {
     res.status(400).json({message: "Resource not found wtf?"});
