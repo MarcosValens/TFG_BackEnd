@@ -2,7 +2,7 @@ const Strategy = require("passport-google-oauth2").Strategy;
 const User = require('../../src/model/User');
 
 const googleOptions = {
-    callbackURL: '/auth/google/redirect',
+    callbackURL: '/login/googleCallback',
     clientID: process.env.GOOGLE_CLIENT_ID,
     clientSecret: process.env.GOOGLE_CLIENT_SECRET
 };
