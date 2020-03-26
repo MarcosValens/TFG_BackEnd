@@ -7,9 +7,10 @@ class NetworkManager {
     constructor() {
     }
 
-    async create({name, gateway, hosts}) {
+    async create({name, gateway = "", hosts = []}) {
         try {
-            await Network.create({name, gateway, hosts});
+            const network = await Network.create({name, gateway, hosts});
+            return network;
         } catch (ex) {
             console.log(ex);
             return null;
@@ -34,15 +35,6 @@ class NetworkManager {
         }
     }
 
-    async getAllUserNetworks(email) {
-        try {
-            const networks = await Network.find({user: email});
-            return networks;
-        } catch (ex) {
-            console.log(ex);
-            return null;
-        }
-    }
 }
 
 module.exports = (() => {
