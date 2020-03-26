@@ -23,23 +23,16 @@ const checks = [
         .isEmpty()
 ];
 
-const existingEmail = body("email").custom(email => {
-    return userManager.findByEmail(email).then(user => {
-        if (user) {
-            console.log(user)
-            return Promise.reject("Email already exists")
-        }
-    });
-    
-})
 
 router.post("/", checks, async (req, res) => {
     const errors = validationResult(req);
     if (!errors.isEmpty()) {
         return res.status(422).json({ errors: errors.array() });
     }
-    const user = await userManager.create(req.body);
-    if (!user) {
+    const userData = req.body;
+    userData.issuer = "local"
+    const userWasCreated = await userManager.create(userData);
+    if (!userWasCreated) {
         return res.status(500).json({ error: "Could not create user. Soz!" });
     }
     await user.save();
