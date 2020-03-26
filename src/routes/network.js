@@ -13,3 +13,4 @@ router.post("/delete", (req, res) => {
     networkManager.delete(req.network)
 });
 
+module.exports = router;
