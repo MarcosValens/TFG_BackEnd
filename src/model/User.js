@@ -35,9 +35,6 @@ const userSchema = new mongoose.Schema({
         type: String,
         unique: true
     },
-    googlePicture:{
-      type: String
-    },
     networks: [{
         type: mongoose.Schema.Types.ObjectId,
         ref: "network"

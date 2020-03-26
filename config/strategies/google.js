@@ -16,6 +16,7 @@ async function googleCallback(accessToken, refreshToken, profile, done) {
     } else {
         let newUser = await new User({
             name: profile.displayName,
+
             googleId: profile.id,
             thumbnail: profile._json.picture
         }).save();
