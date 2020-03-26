@@ -35,8 +35,7 @@ router.post("/", checks, async (req, res) => {
     if (!userWasCreated) {
         return res.status(500).json({ error: "Could not create user. Soz!" });
     }
-    await user.save();
-    res.status(200).json({ success: true });
+    res.status(200).json({ success: "User created sulucesefuly" });
 });
 
 module.exports = router;
