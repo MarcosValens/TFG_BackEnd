@@ -1,32 +1,21 @@
 const router = require("express").Router();
 const { tokenManager } = require("./../services");
+
+require("./../../config/passport-setup.js")
+const passport = require("passport");
+
 // TODO: Add passport strategies
-router.post("/local", (req, res, next) => {
-    /* 
-        This function should be replaced with passport local strategy
-    */
-   next();
-}, (req, res) => {
+router.post("/local", passport.authenticate("local", {session: false}), (req, res) => {
     const user = req.user;
     const token = tokenManager.create(user);
     res.json({token});
 });
 
-router.get("/google", (req, res, next) => {
-    /*
-        This function should be replaced with google local strategy 
-    */
-   next();
-}, (req, res) => {
+router.get("/google", passport.authenticate("google", {scope: ["email", "profile"]}), (req, res) => {
     res.status(200).end();
 });
 
-router.get("/google/callback", (req, res, next) => {
-        /*
-        This function should be replaced with google local strategy 
-    */
-   next();
-}, (req, res) => {
+router.get("/google/callback", (req, res) => {
     const user = req.user
     // TODO: Get or create user with mongoose model
     const mongooseUser = user; // Leave it like this until this is implemented
