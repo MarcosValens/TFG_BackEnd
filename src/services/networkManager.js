@@ -1,7 +1,7 @@
 const data = {
     instance: null
 };
-const {Network} = require("./../model/Network");
+const Network = require("./../model/Network");
 
 class NetworkManager {
     constructor() {
@@ -35,6 +35,15 @@ class NetworkManager {
         }
     }
 
+    async findById(id) {
+        try {
+            const network = await Network.findById(id)
+            return network;
+        } catch (ex) {
+            console.log(ex);
+            return {};
+        }
+    }
 }
 
 module.exports = (() => {
