@@ -20,11 +20,11 @@ router.post("/create", validateNetworkName, async (req, res) => {
 });
 
 router.post("/update", validateNetwork, validateNetworkName, (req, res) => {
-    networkManager.update(req.network)
+    networkManager.update(req.body)
 });
 
 router.post("/delete", validateNetwork, (req, res) => {
-    networkManager.delete(req.network)
+    networkManager.delete(req.body.networkId)
 });
 
 router.get("/all", async (req, res) => {
@@ -32,5 +32,9 @@ router.get("/all", async (req, res) => {
     const userFromDB = await userManager.findByEmail(user.email);
     res.status(200).json(userFromDB.networks)
 });
+
+router.get("/:networkId", validateNetwork, async (req, res) => {
+    res.status(200).json(req.network);
+})
 
 module.exports = router;

@@ -6,7 +6,13 @@ const { hostManager } = require("./../services");
 
 router.use(passport.authenticate("jwt"));
 
-router.use([validateNetwork, host]);
+router.use(validateNetwork);
+
+router.get("/all", async (req, res) => {
+    res.status(200).json(req.network.hosts);
+})
+
+router.use(host);
 
 router.get("/:hostId", async (req, res) => {
     res.status(200).json(req.host);
