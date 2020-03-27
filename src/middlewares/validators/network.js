@@ -6,10 +6,10 @@ async function validateNetwork(req, res, next) {
     const userFromDB = await userManager.findByEmail(user.email);
     const network = userFromDB.networks.find(network => idNetwork);
     if (!network) {
-        return res.status(401).json({"message": "Network not found"})
+        return res.status(401).json({ message: "Network not found" });
     }
     req.network = network;
-    next()
+    next();
 }
 
 async function validateNetworkName(req, res, next) {
@@ -19,13 +19,22 @@ async function validateNetworkName(req, res, next) {
     const networkPromises = userFromDB.networks.map(networkManager.findById);
     const networks = await Promise.all(networkPromises);
     const networkId = req.body.networkId;
-    const networkNameDB = networks.find(network => network && network.name === networkName);
-    if (networkNameDB || networkNameDB._id.toString()!==networkId) {
-        return res.status(401).json({"message": "This name already exists"})
+    const networkNameDB = networks.find(
+        network => network && network.name === networkName
+    );
+    if (!networkNameDB) {
+        return next();
     }
-    next()
+    const isSelfNetwork =
+        networkId && networkNameDB._id.toString() === networkId;
+    if (!isSelfNetwork || !networkId) {
+        return res.status(401).json({ message: "This name already exists" });
+    }
+
+    next();
 }
 
 module.exports = {
-    validateNetwork, validateNetworkName
+    validateNetwork,
+    validateNetworkName
 };
