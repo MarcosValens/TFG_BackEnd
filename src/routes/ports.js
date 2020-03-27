@@ -1,10 +1,11 @@
 const router = require("express").Router();
 const passport = require("passport");
 const { portManager, hostManager } = require("./../services");
+const { portValidator } = require("./../middlewares/validators");
 
 router.use(passport.authenticate("jwt"));
 
-router.post("/create", validatePort, async (req, res) => {
+router.post("/create", portValidator, async (req, res) => {
     try {
         const port = await portManager.create(req.body);
         const host = req.host;
@@ -17,11 +18,11 @@ router.post("/create", validatePort, async (req, res) => {
     }
 });
 
-router.post("/update", validatePort, (req, res) => {
+router.post("/update", portValidator, (req, res) => {
     hostManager.update(req.port)
 });
 
-router.post("/delete", validatePort, (req, res) => {
+router.post("/delete", portValidator, (req, res) => {
     portManager.delete(req.port)
 });
 
