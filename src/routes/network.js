@@ -45,7 +45,8 @@ router.get("/all", async (req, res) => {
     const userFromDB = await userManager.findByEmail(user.email);
     const networkPromises = userFromDB.networks.map(networkId => networkManager.findById(networkId));
     const networks = await Promise.all(networkPromises);
-    res.status(200).json(networks.filter(network => !!network))
+    const filteredNetworks = networks.filter(network => !!network);
+    res.status(200).json(filteredNetworks)
 });
 
 router.get("/:networkId", validateNetwork, async (req, res) => {
