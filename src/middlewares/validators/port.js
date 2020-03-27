@@ -9,7 +9,7 @@ async function validatePort (req, res, next) {
         return res.status(401).json({"message": "Port not found"})
     }
     const portFromDataBase = await portManager.findById(portId);
-    res.port = portFromDataBase;
+    req.port = portFromDataBase;
     next()
 }
 
