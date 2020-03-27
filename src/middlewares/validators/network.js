@@ -1,4 +1,4 @@
-const { networkManager, userManager } = require("./../services");
+const { networkManager, userManager } = require("./../../services");
 
 async function validateNetwork(req, res, next) {
     const idNetwork = req.body.networkId;

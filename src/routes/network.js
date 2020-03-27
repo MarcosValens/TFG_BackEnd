@@ -1,7 +1,7 @@
 const router = require("express").Router();
 const passport = require("passport");
 const { networkManager, userManager } = require("./../services");
-const { networkValidator: { validateNetworkName, validateNetwork } } = require("./../middlewares/validators");
+const { network: { validateNetworkName, validateNetwork } } = require("./../middlewares/validators");
 
 router.use(passport.authenticate("jwt"));
 
