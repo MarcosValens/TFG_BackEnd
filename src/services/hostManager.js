@@ -1,25 +1,25 @@
 const data = {
     instance: null
 };
-const Network = require("./../model/Network");
+const Host = require("./../model/Host");
 
-class NetworkManager {
+class HostManager {
     constructor() {
     }
 
-    async create({name, gateway = "", hosts = []}) {
+    async create({ipAddress, description = "", ports = []}) {
         try {
-            const network = await Network.create({name, gateway, hosts});
-            return network;
+            const host = await Host.create({ipAddress, description = "", ports = []});
+            return host;
         } catch (ex) {
             console.log(ex);
             return null;
         }
     }
 
-    async update(name, gateway, hosts) {
+    async update({ipAddress, description = "", ports = []}) {
         try {
-            await Network.update({name, gateway, hosts});
+            await Host.update({ipAddress, description = "", ports = []});
             return true;
         } catch (ex) {
             console.log(ex);
@@ -27,9 +27,9 @@ class NetworkManager {
         }
     }
 
-    async delete(networkId) {
+    async delete(hostId) {
         try {
-            await Network.deleteOne({_id: networkId});
+            await Host.deleteOne({_id: hostId});
             return true;
         } catch (ex) {
             console.log(ex);
@@ -39,8 +39,8 @@ class NetworkManager {
 
     async findById(id) {
         try {
-            const network = await Network.findById(id)
-            return network;
+            const host = await Host.findById(id)
+            return host;
         } catch (ex) {
             console.log(ex);
             return {};
@@ -50,7 +50,7 @@ class NetworkManager {
 
 module.exports = (() => {
     if (!data.instance) {
-        data.instance = new NetworkManager();
+        data.instance = new HostManager();
     }
     return data.instance;
 })();
