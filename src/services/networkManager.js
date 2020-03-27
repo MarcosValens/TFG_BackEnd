@@ -17,9 +17,9 @@ class NetworkManager {
         }
     }
 
-    async update(name, gateway, hosts) {
+    async update({networkId, name, gateway = "", hosts = []}) {
         try {
-            await Network.update({name, gateway, hosts});
+            await Network.updateOne({_id: networkId}, {name, gateway, hosts});
             return true;
         } catch (ex) {
             console.log(ex);
