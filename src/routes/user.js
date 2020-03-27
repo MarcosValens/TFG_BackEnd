@@ -4,7 +4,7 @@ const { userManager } = require("./../services");
 
 router.use(passport.authenticate("jwt"));
 
-router.get("/user", async (req, res) => {
+router.get("/", async (req, res) => {
     try {
         const user = await userManager.findByEmail(req.body.email);
         res.status(200).json(user);
