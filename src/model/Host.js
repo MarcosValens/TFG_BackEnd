@@ -14,7 +14,6 @@ const hostSchema = mongoose.Schema({
             ref: "port"
         }
     ]
-    
 });
 
 const Host = mongoose.model('host', hostSchema);

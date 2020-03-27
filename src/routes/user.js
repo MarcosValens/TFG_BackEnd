@@ -24,6 +24,6 @@ router.put("/update", async (req, res) => {
     } catch(error) {
         res.status(500).json({error: "Something went wrong OOPS!"});
     }
-})
+});
 
 module.exports = router;

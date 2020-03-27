@@ -39,7 +39,7 @@ class NetworkManager {
 
     async findById(id) {
         try {
-            const network = await Network.findById(id)
+            const network = await Network.findById(id);
             return network;
         } catch (ex) {
             console.log(ex);

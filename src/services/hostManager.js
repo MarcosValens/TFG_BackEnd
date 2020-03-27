@@ -9,7 +9,7 @@ class HostManager {
 
     async create({ipAddress, description = "", ports = []}) {
         try {
-            const host = await Host.create({ipAddress, description = "", ports = []});
+            const host = await Host.create({ipAddress, description, ports});
             return host;
         } catch (ex) {
             console.log(ex);
@@ -19,7 +19,7 @@ class HostManager {
 
     async update({ipAddress, description = "", ports = []}) {
         try {
-            await Host.update({ipAddress, description = "", ports = []});
+            await Host.update({ipAddress, description, ports});
             return true;
         } catch (ex) {
             console.log(ex);
@@ -39,7 +39,7 @@ class HostManager {
 
     async findById(id) {
         try {
-            const host = await Host.findById(id)
+            const host = await Host.findById(id);
             return host;
         } catch (ex) {
             console.log(ex);

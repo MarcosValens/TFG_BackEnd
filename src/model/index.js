@@ -3,4 +3,4 @@ module.exports = {
     Photo: require("./Photo"),
     Network: require("./Network"),
     Host: require("./Host")
-}
+};

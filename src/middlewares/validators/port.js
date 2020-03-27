@@ -11,3 +11,5 @@ async function validatePort (req, res, next) {
     res.port(portManager.findById(portId));
     next()
 }
+
+module.exports = validatePort;

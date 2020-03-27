@@ -35,6 +35,6 @@ router.get("/all", async (req, res) => {
 
 router.get("/:networkId", validateNetwork, async (req, res) => {
     res.status(200).json(req.network);
-})
+});
 
 module.exports = router;
