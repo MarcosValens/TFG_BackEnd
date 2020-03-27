@@ -12,7 +12,7 @@ router.get("/:hostId", async (req, res) => {
     res.status(200).json(req.host);
 })
 
-router.put("/", async (req, res) => {
+router.post("/", async (req, res) => {
     const hostData = req.body.host;
     const hostWasUpdated = await hostManager.update(hostData);
 
@@ -20,6 +20,14 @@ router.put("/", async (req, res) => {
         return res.status(500).json({message: "There was an error updating your host"});
     }
     res.status(200).json({message: "Host updated successfully"})
+});
+
+router.post("/delete", (req, res) => {
+    const gotDeleted = await hostManager.delete(req.body.hostId);
+    if (!gotDeleted) {
+        return res.status(500).json({message: "Could not delete that host"});
+    }
+    res.status(200).json({message: "Host deleted"});
 })
 
 module.exports = router;

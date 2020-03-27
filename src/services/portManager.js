@@ -9,26 +9,28 @@ class PortManager {
 
     async create({port, open, service = ""}) {
         try {
-            const port = await Port.create({port, open, service});
-            return network;
+            const portCreated = await Port.create({port, open, service});
+            return portCreated;
         } catch (ex) {
             console.log(ex);
             return null;
         }
     }
 
-    async update(port, open, service = "") {
+    async update({port, open, service = ""}) {
         try {
             await Port.update({port, open, service});
+            return true;
         } catch (ex) {
             console.log(ex);
             return null;
         }
     }
 
-    async delete(port, open, service = "") {
+    async delete(portId) {
         try {
-            await Port.delete({port, open, service});
+            await Port.deleteOne({_id: portId});
+            return true;
         } catch (ex) {
             console.log(ex);
             return null;
