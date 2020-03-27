@@ -1,7 +1,7 @@
 const router = require("express").Router();
 const passport = require("passport");
-const {networkManager, userManager} = require("./../services");
-const networkMiddleware = require("./../middleware/validators");
+const { networkManager, userManager } = require("./../services");
+const { networkValidator: { validateNetworkName, validateNetwork } } = require("./../middlewares/validators");
 
 router.use(passport.authenticate("jwt"));
 
@@ -13,9 +13,9 @@ router.post("/create", validateNetworkName, async (req, res) => {
         const userFromDB = await userManager.findByEmail(user.email);
         userFromDB.networks.push(network);
         await userFromDB.save();
-        res.status(200).json({"message":"Network saved!"})
-    } catch (error){
-     res.status(500).json({"message":"This network already exists"})
+        res.status(200).json({"message": "Network saved!"})
+    } catch (error) {
+        res.status(500).json({"message": "This network already exists"})
     }
 
 });

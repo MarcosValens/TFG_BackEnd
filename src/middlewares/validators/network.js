@@ -1,3 +1,5 @@
+const { networkManager, userManager } = require("./../services");
+
 async function validateNetwork(req, res, next) {
     const idNetwork = req.body.networkId;
     const user = req.user;
@@ -23,4 +25,6 @@ async function validateNetworkName(req, res, next) {
     next()
 }
 
-module.exports = networkMiddleware;
+module.exports = {
+    validateNetwork, validateNetworkName
+};
