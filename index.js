@@ -1,8 +1,7 @@
 require("dotenv").config();
 
-
 const path = require("path");
-const mongoose = require('mongoose');
+const mongoose = require("mongoose");
 const express = require("express");
 const app = express();
 const routes = require("./src/routes");
@@ -12,6 +11,7 @@ const helmet = require("helmet");
 const cors = require("cors");
 const passport = require("passport");
 const fileLogger = require("expressjs-file-logger");
+const { notFoundMiddleware } = require("./src/middlewares");
 
 const corsOptions = {
     allowedHeaders: ["Authorization", "Accept", "Origin"],
@@ -21,32 +21,34 @@ const corsOptions = {
 
 app.use(helmet());
 app.use(cors(corsOptions));
-app.use(express.urlencoded({extended: false}));
+app.use(express.urlencoded({ extended: false }));
 app.use(express.json());
 
 app.use(passport.initialize());
 require("./config/passport-setup");
 
-
 if (process.env.MODE === "production") {
-    app.use(fileLogger({
-        storagePath: path.join(process.cwd(), "logs"),
-        logMode: "all",
-        logFilesExtension: ".log",
-        logRequestBody: true,
-        logType: "hour"
-    }));
+    app.use(
+        fileLogger({
+            storagePath: path.join(process.cwd(), "logs"),
+            logMode: "all",
+            logFilesExtension: ".log",
+            logRequestBody: true,
+            logType: "hour"
+        })
+    );
 }
-routes.forEach(({path, router}) => app.use(`/${path}`, router));
+routes.forEach(({ path, router }) => app.use(`/${path}`, router));
 
-app.use((req, res) => {
-    res.status(400).json({message: "Resource not found wtf?"});
-});
+app.use(notFoundMiddleware);
 
 app.listen(port, () => {
     console.log(`http://localhost:${port}`);
 });
 
 // Connect to DB
-mongoose.connect(process.env.MONGO_URL, {useNewUrlParser: true, useUnifiedTopology: true, useCreateIndex: true},
-    () => console.log('Connected to DB!'));
+mongoose.connect(
+    process.env.MONGO_URL,
+    { useNewUrlParser: true, useUnifiedTopology: true, useCreateIndex: true },
+    () => console.log("Connected to DB!")
+);

@@ -1,4 +1,3 @@
 module.exports = {
-    notFoundMiddleware: require('./404'),
-    validators: require("./validators")
+    notFoundMiddleware: require('./404')
 }

@@ -1,1 +1,3 @@
-module.exports = {networkValidator: require('./network')};
+module.exports = {
+    register: require("./registerValidator")
+};
