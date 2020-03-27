@@ -5,13 +5,14 @@ const { hostManager } = require("./../services");
 
 
 router.use(passport.authenticate("jwt"));
+
 router.use([validateNetwork, host]);
 
 router.get("/:hostId", async (req, res) => {
     res.status(200).json(req.host);
 })
 
-router.put("/:hostId", async (req, res) => {
+router.put("/", async (req, res) => {
     const hostData = req.body.host;
     const hostWasUpdated = await hostManager.update(hostData);
 

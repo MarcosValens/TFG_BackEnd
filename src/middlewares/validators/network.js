@@ -1,7 +1,7 @@
 const { networkManager, userManager } = require("./../../services");
 
 async function validateNetwork(req, res, next) {
-    const idNetwork = req.body.networkId;
+    const idNetwork = req.params.networkId || req.body.networkId;
     const user = req.user;
     const userFromDB = await userManager.findByEmail(user.email);
     const network = userFromDB.networks.find(network => network._id === idNetwork);
