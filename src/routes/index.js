@@ -10,7 +10,7 @@ function generateRouters(routes, route) {
     routes.push({
         path: route.split(".")[0],
         router
-    })
+    });
     return routes;
 }
 

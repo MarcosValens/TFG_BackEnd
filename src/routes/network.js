@@ -9,7 +9,6 @@ router.post("/create", validateNetworkName, async (req, res) => {
     try {
         const network = await networkManager.create(req.body);
         const user = req.user;
-        console.log(network);
         const userFromDB = await userManager.findByEmail(user.email);
         userFromDB.networks.push(network);
         await userFromDB.save();

@@ -10,18 +10,8 @@ const hostSchema = mongoose.Schema({
     },
     ports: [
         {
-            port: {
-                type: Number,
-                required: true,
-
-            },
-            service: {
-                type: String
-            },
-            open: {
-                type: Boolean,
-                required: true
-            }
+            type: mongoose.Schema.Types.ObjectId,
+            ref: "port"
         }
     ]
     
