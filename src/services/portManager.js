@@ -50,7 +50,7 @@ class PortManager {
 
 module.exports = (() => {
     if (!data.instance) {
-        data.instance = new NetworkManager();
+        data.instance = new PortManager();
     }
     return data.instance;
 })();

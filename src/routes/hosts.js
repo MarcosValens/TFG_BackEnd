@@ -10,13 +10,13 @@ router.use(validateNetwork);
 
 router.get("/all", async (req, res) => {
     res.status(200).json(req.network.hosts);
-})
+});
 
 router.use(host);
 
 router.get("/:hostId", async (req, res) => {
     res.status(200).json(req.host);
-})
+});
 
 router.post("/", async (req, res) => {
     const hostData = req.body.host;
@@ -28,12 +28,12 @@ router.post("/", async (req, res) => {
     res.status(200).json({message: "Host updated successfully"})
 });
 
-router.post("/delete", (req, res) => {
+router.post("/delete", async (req, res) => {
     const gotDeleted = await hostManager.delete(req.body.hostId);
     if (!gotDeleted) {
         return res.status(500).json({message: "Could not delete that host"});
     }
     res.status(200).json({message: "Host deleted"});
-})
+});
 
 module.exports = router;
