@@ -43,7 +43,9 @@ router.post("/delete", validateNetwork, async (req, res) => {
 router.get("/all", async (req, res) => {
     const user = req.user;
     const userFromDB = await userManager.findByEmail(user.email);
-    res.status(200).json(userFromDB.networks)
+    const networkPromises = userFromDB.networks.map(networkId => networkManager.findById(networkId));
+    const networks = await Promise.all(networkPromises);
+    res.status(200).json(networks.filter(network => !!network))
 });
 
 router.get("/:networkId", validateNetwork, async (req, res) => {

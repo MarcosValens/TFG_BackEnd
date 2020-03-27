@@ -4,11 +4,14 @@ async function validateNetwork(req, res, next) {
     const idNetwork = req.params.networkId || req.body.networkId;
     const user = req.user;
     const userFromDB = await userManager.findByEmail(user.email);
-    const network = userFromDB.networks.find(network => network === idNetwork);
+    const network = userFromDB.networks.find(networkId => {
+        return networkId.toString() === idNetwork
+    });
     if (!network) {
         return res.status(401).json({ message: "Network not found" });
     }
-    req.network = network;
+    const networkFromDataBase = await networkManager.findById(network);
+    req.network = networkFromDataBase;
     next();
 }
 
