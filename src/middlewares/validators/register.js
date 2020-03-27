@@ -1,4 +1,4 @@
-const { userManager } = require("./../../services");
+const { userManager } = require("../../services");
 const { check } = require("express-validator");
 
 const checks = [
