@@ -18,8 +18,10 @@ async function validateNetworkName(req, res, next) {
     const userFromDB = await userManager.findByEmail(user.email);
     const networkPromises = userFromDB.networks.map(networkManager.findById);
     const networks = await Promise.all(networkPromises);
-    const networkNameDB = networks.find(network => network && network.name === networkName);
-    if (networkNameDB) {
+    const networkId = req.body.networkId;
+    const networksWithTheSameName = networks.filter(network => network && network.name === networkName);
+    const netowrksFiltered = networksWithTheSameName.filter(network => networkId && network._id !== networkId);
+    if (netowrksFiltered.length) {
         return res.status(401).json({"message": "This name already exists"})
     }
     next()
