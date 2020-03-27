@@ -19,12 +19,25 @@ router.post("/create", validateNetworkName, async (req, res) => {
 
 });
 
-router.post("/update", validateNetwork, validateNetworkName, (req, res) => {
-    networkManager.update(req.body)
+router.post("/update", validateNetwork, validateNetworkName, async (req, res) => {
+    const wasUpdated = await networkManager.update(req.body);
+    if(!wasUpdated) {
+        return res.status(500).json({
+            "message":"Error updating network."
+        })
+    }
+    res.status(200).json({"message":"Network updated"})
+
 });
 
-router.post("/delete", validateNetwork, (req, res) => {
-    networkManager.delete(req.body.networkId)
+router.post("/delete", validateNetwork, async (req, res) => {
+    const wasDeleted = await networkManager.delete(req.body.networkId);
+    if(!wasDeleted) {
+        return res.status(500).json({
+            "message":"Error deleting network."
+        })
+    }
+    res.status(200).json({"message":"Network deleted."})
 });
 
 router.get("/all", async (req, res) => {
