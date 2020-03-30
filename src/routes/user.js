@@ -9,7 +9,7 @@ router.get("/", async (req, res) => {
         const user = await userManager.findByEmail(req.body.email);
         res.status(200).json(user);
     } catch(ex) {
-        res.status(500).json({error: "Something went wrong OOPS!"})
+        res.status(500).json({message: "Something went wrong OOPS!"})
     }
 });
 
@@ -18,11 +18,11 @@ router.put("/update", async (req, res) => {
         const user = await userManager.findByEmail(req.user.email);
         const didUpdate = await userManager.update(user, req.body);
         if (!didUpdate) {
-            return res.status(400).json({error: "Check your fields"}); 
+            return res.status(400).json({message: "Check your fields"}); 
         }
         res.status(200).json({message: "Profile updated successfully!"});
     } catch(error) {
-        res.status(500).json({error: "Something went wrong OOPS!"});
+        res.status(500).json({message: "Something went wrong OOPS!"});
     }
 });
 

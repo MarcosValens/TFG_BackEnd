@@ -8,7 +8,7 @@ router.post("/local", (req, res, next) => {
         if (err || !user) {
             return res
                 .status(401)
-                .json({ error: "What were you trying to do?" });
+                .json({ message: "What were you trying to do?" });
         }
         const token = tokenManager.create(user);
         res.status(200).json({ token });
@@ -48,7 +48,7 @@ router.get(
             const token = tokenManager.create(existingUser);
             res.status(200).json({ token });
         } catch (error) {
-            res.status(500).json({ error: "Something went wrong" });
+            res.status(500).json({ message: "Something went wrong" });
         }
     }
 );
