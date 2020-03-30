@@ -11,7 +11,10 @@ const checks = [
         .trim()
         .escape()
         .custom(email => userManager.findByEmail(email).then(user => user && Promise.reject("This email already exists"))),
-    check("password").isLength({ min: 8, max: 50 }).withMessage("Password length must be more than 8 characters and max length of 50 characters"),
+    check("password")
+        .isLength({ min: 8, max: 50 })
+        .withMessage("Password length must be more than 8 characters and max length of 50 characters")
+        .notEmpty().withMessage("Password cannot be empty"),
     check("name")
         .isLength({ min: 3, max: 30 }).withMessage("Name must be of minimum length 3 characters and max length of 30 characters")
         .not()
