@@ -1,63 +1,25 @@
 const { userManager } = require("../../services");
-const { body } = require("express-validator");
-
-function validString(string, min, max, paramName) {
-    const status = {
-        success: true,
-        msg: ""
-    };
-    if (!string) {
-        status.success = false;
-        status.msg = `${paramName} must not be empty`;
-    }
-    if (password.length < 8) {
-        status.success = false;
-        status.msg = `${paramName} length should be more than ${min}`;
-    } else if (password.length > 52) {
-        status.success = false;
-        status.msg = `${paramName} length cannot be more than ${max}`;
-    }
-    return status;
-}
+const { check } = require("express-validator");
 
 const checks = [
-    body("email")
-        .isEmail()
+    check("email")
+        .isEmail().withMessage("Please enter a valid email")
+        .isLength({ min: 5, max: 254 }).withMessage("Email length must be of 5 or 254")
         .normalizeEmail()
-        .escape()
+        .not()
+        .isEmpty().withMessage("Email cannot be empty")
         .trim()
-        .custom(async email => {
-            const userMail = await userManager.findByEmail(email);
-            
-            if (userMail) {
-                return Promise.reject("This email already exists");
-            } else if (!email) {
-                return Promise.reject("Email cannot be empty")
-            }
-
-            return true;
-        }),
-    body("password").custom(password => {
-        const status = validString(password, 8, 52, "password");
-        if(!status.success) {
-            return Promise.reject(status.msg);
-        }
-        return true;
-    }),
-    body("name").custom(name => {
-        const status = validString(name, 3, 25, "name");
-        if(!status.success) {
-            return Promise.reject(status.msg);
-        }
-        return true;
-    }),
-    body("surname").custom(surname => {
-        const status = validString(surname, 3, 25, "surname");
-        if(!status.success) {
-            return Promise.reject(status.msg);
-        }
-        return true;
-    })
+        .escape()
+        .custom(email => userManager.findByEmail(email).then(user => user && Promise.reject("This email already exists"))),
+    check("password").isLength({ min: 8, max: 50 }).withMessage("Password length must be more than 8 characters and max length of 50 characters"),
+    check("name")
+        .isLength({ min: 3, max: 30 }).withMessage("Name must be of minimum length 3 characters and max length of 30 characters")
+        .not()
+        .isEmpty().withMessage("Name cannot be empty"),
+    check("surname")
+        .isLength({ min: 3, max: 30 }).withMessage("Surname must be of minimum length 3 characters and max length of 30 characters")
+        .not()
+        .isEmpty().withMessage("Surname cannot be empty")
 ];
 
 module.exports = checks;
