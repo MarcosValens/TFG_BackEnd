@@ -3,10 +3,6 @@ const { tokenManager, userManager } = require("./../services");
 
 const passport = require("passport");
 
-router.get("/error", (req, res) => {
-    res.status(401).json({ error: "What were you trying to do?" });
-});
-
 router.post("/local", (req, res, next) => {
     passport.authenticate("local", (err, user) => {
         if (err || !user) {
