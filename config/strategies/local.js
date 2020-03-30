@@ -15,16 +15,17 @@ const options = {
 async function doLogin(email, password, done) {
     try {
         const user = await userManager.findByEmail(email);
+        
         if (!user) {
-            return done(null, false);
+            return done(false, false);
         }
 
         if (user.createdWith !== "local") {
-            return done(null, false);
+            return done(false, false);
         }
         const isValidPassword = await verifyPassword(password, user.password);
         if (!isValidPassword) {
-            return done(null, false);
+            return done(false, false);
         }
         done(null, user);
     } catch(error) {

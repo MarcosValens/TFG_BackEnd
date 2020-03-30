@@ -9,7 +9,10 @@ router.use(passport.authenticate("jwt"));
 router.use(validateNetwork);
 
 router.get("/all", async (req, res) => {
-    res.status(200).json(req.network.hosts);
+    const hostIds = req.network.hosts;
+    const hostPromises = hostIds.map(hostId => hostManager.findById(hostId));
+    const hosts = await Promise.all(hostPromises);
+    res.status(200).json(hosts);
 });
 
 router.use(host);

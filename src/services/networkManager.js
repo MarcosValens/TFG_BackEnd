@@ -12,7 +12,6 @@ class NetworkManager {
             const network = await Network.create({name, gateway, hosts});
             return network;
         } catch (ex) {
-            console.log(ex);
             return null;
         }
     }
@@ -22,7 +21,6 @@ class NetworkManager {
             await Network.updateOne({_id: networkId}, {name, gateway, hosts});
             return true;
         } catch (ex) {
-            console.log(ex);
             return null;
         }
     }
@@ -32,7 +30,6 @@ class NetworkManager {
             await Network.deleteOne({_id: networkId});
             return true;
         } catch (ex) {
-            console.log(ex);
             return null;
         }
     }
@@ -42,7 +39,6 @@ class NetworkManager {
             const network = await Network.findById(id);
             return network;
         } catch (ex) {
-            console.log(ex);
             return {};
         }
     }

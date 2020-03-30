@@ -12,7 +12,6 @@ class PortManager {
             const portCreated = await Port.create({port, open, service});
             return portCreated;
         } catch (ex) {
-            console.log(ex);
             return null;
         }
     }
@@ -22,7 +21,6 @@ class PortManager {
             await Port.update({port, open, service});
             return true;
         } catch (ex) {
-            console.log(ex);
             return null;
         }
     }
@@ -32,7 +30,6 @@ class PortManager {
             await Port.deleteOne({_id: portId});
             return true;
         } catch (ex) {
-            console.log(ex);
             return null;
         }
     }
@@ -42,7 +39,6 @@ class PortManager {
             const port = await Port.findById(id);
             return port;
         } catch (ex) {
-            console.log(ex);
             return {};
         }
     }

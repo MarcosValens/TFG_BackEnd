@@ -12,7 +12,6 @@ class HostManager {
             const host = await Host.create({ipAddress, description, ports});
             return host;
         } catch (ex) {
-            console.log(ex);
             return null;
         }
     }
@@ -22,7 +21,6 @@ class HostManager {
             await Host.update({ipAddress, description, ports});
             return true;
         } catch (ex) {
-            console.log(ex);
             return null;
         }
     }
@@ -32,7 +30,6 @@ class HostManager {
             await Host.deleteOne({_id: hostId});
             return true;
         } catch (ex) {
-            console.log(ex);
             return null;
         }
     }
@@ -42,7 +39,6 @@ class HostManager {
             const host = await Host.findById(id);
             return host;
         } catch (ex) {
-            console.log(ex);
             return {};
         }
     }

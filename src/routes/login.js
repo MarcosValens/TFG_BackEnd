@@ -7,15 +7,17 @@ router.get("/error", (req, res) => {
     res.status(401).json({ error: "What were you trying to do?" });
 });
 
-router.post(
-    "/local",
-    passport.authenticate("local", { failureRedirect: "/login/error" }),
-    (req, res) => {
-        const user = req.user;
+router.post("/local", (req, res, next) => {
+    passport.authenticate("local", (err, user) => {
+        if (err || !user) {
+            return res
+                .status(401)
+                .json({ error: "What were you trying to do?" });
+        }
         const token = tokenManager.create(user);
-        res.json({ token });
-    }
-);
+        res.status(200).json({ token });
+    })(req, res, next);
+});
 
 router.get(
     "/google",
@@ -49,8 +51,8 @@ router.get(
 
             const token = tokenManager.create(existingUser);
             res.status(200).json({ token });
-        } catch(error) {
-            res.status(500).json({error: "Something went wrong"});
+        } catch (error) {
+            res.status(500).json({ error: "Something went wrong" });
         }
     }
 );

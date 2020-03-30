@@ -14,9 +14,11 @@ const fileLogger = require("expressjs-file-logger");
 const { notFoundMiddleware } = require("./src/middlewares");
 
 const corsOptions = {
-    allowedHeaders: ["Authorization", "Accept", "Origin"],
-    allowedMethods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
-    origin: process.env.WHITELIST || "http://localhost:8080"
+    allowedHeaders: "Authorization, Origin, X-Requested-With, Content-Type, Accept",
+    allowedMethods: "GET, POST, PUT, DELETE, OPTIONS",
+    credentials: true,
+    origin: process.env.WHITELIST || "http://localhost:8080",
+    maxAge: 3600
 };
 
 app.use(helmet());
