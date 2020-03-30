@@ -25,14 +25,16 @@ const checks = [
         .isEmail()
         .normalizeEmail()
         .escape()
-        .not()
-        .isEmpty()
         .trim()
         .custom(async email => {
-            const email = await userManager.findByEmail(email);
-            if (email) {
+            const userMail = await userManager.findByEmail(email);
+            
+            if (userMail) {
                 return Promise.reject("This email already exists");
+            } else if (!email) {
+                return Promise.reject("Email cannot be empty")
             }
+
             return true;
         }),
     body("password").custom(password => {
