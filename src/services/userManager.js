@@ -35,14 +35,22 @@ class UserManager {
     }
 
     async update(userFromDataBase, userData) {
-        userFromDataBase.name = userData.name;
-        userFromDataBase.surname = userData.surname;
-        userFromDataBase.photo = userData.photo;
+        userFromDataBase.name = userData.data.name || userFromDataBase.name;
+        userFromDataBase.surname = userData.data.surname || userFromDataBase.surname;
+        /*
+if (userData.photo) {
+            const photo = new Photo()
+            photo.file.data = userData.photo.buffer;
+            photo.file.contentType = userData.photo.mimetype;
+            photo.name = userData.photo.originalName;
+            await photo.save();
+            userFromDataBase.photo = photo;
+        }
+        */
         if (userData.password) {
-            const hashedPassword = await this._hashPassword(userData.password);
+            const hashedPassword = await this._hashPassword(userData.data.password);
             userFromDataBase.password = hashedPassword;
         }
-        userFromDataBase.email = userData.email;
         try {
             await userFromDataBase.save();
             return true;

@@ -40,6 +40,7 @@ if (process.env.MODE === "production") {
         })
     );
 }
+app.use(express.static("static"))
 routes.forEach(({ path, router }) => app.use(`/${path}`, router));
 
 app.use(notFoundMiddleware);

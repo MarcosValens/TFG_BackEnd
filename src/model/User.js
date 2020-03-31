@@ -27,7 +27,8 @@ const userSchema = new mongoose.Schema({
     },
     photo: {
         type: {
-            Photo
+            Photo,
+            ref: "photo"
         }
     },
     createdWith:{
