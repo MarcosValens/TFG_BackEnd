@@ -8,7 +8,7 @@ router.post("/local", (req, res, next) => {
         if (err || !user) {
             return res
                 .status(401)
-                .json({ message: "What were you trying to do?" });
+                .json({ message: "Failed to log in" });
         }
         const token = tokenManager.create(user);
         res.status(200).json({ token });
@@ -46,7 +46,7 @@ router.get(
             existingUser = await userManager.findByEmail(email);
 
             const token = tokenManager.create(existingUser);
-            res.status(200).json({ token });
+            res.status(200).redirect(`${process.env.CLIENT_URL_REDIRECT}?token=${token}`);
         } catch (error) {
             res.status(500).json({ message: "Something went wrong" });
         }
