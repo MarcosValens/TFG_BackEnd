@@ -2,7 +2,7 @@ const data = {
     instance: null
 };
 const bcrypt = require("bcrypt");
-const { User, Photo } = require("./../model/");
+const { User } = require("./../model/");
 class UserManager {
     constructor() {}
 
@@ -37,16 +37,6 @@ class UserManager {
     async update(userFromDataBase, userData) {
         userFromDataBase.name = userData.data.name || userFromDataBase.name;
         userFromDataBase.surname = userData.data.surname || userFromDataBase.surname;
-        /*
-if (userData.photo) {
-            const photo = new Photo()
-            photo.file.data = userData.photo.buffer;
-            photo.file.contentType = userData.photo.mimetype;
-            photo.name = userData.photo.originalName;
-            await photo.save();
-            userFromDataBase.photo = photo;
-        }
-        */
         if (userData.password) {
             const hashedPassword = await this._hashPassword(userData.data.password);
             userFromDataBase.password = hashedPassword;
