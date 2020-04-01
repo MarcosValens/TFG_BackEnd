@@ -12,7 +12,13 @@ router.use(passport.authenticate("jwt"));
 router.get("/", async (req, res) => {
     try {
         const user = await userManager.findByEmail(req.user.email);
-        res.status(200).json(user);
+        const publicUser = {
+            email: user.email,
+            name: user.name,
+            surname: user.surname,
+            networks: user.networks
+        }
+        res.status(200).json(publicUser);
     } catch(ex) {
         res.status(500).json({message: "Something went wrong OOPS!"})
     }
