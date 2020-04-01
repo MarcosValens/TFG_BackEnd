@@ -5,6 +5,7 @@ const { network: { validateNetworkName, validateNetwork } } = require("./../midd
 
 router.use(passport.authenticate("jwt"));
 
+// OK
 router.post("/create", validateNetworkName, async (req, res) => {
     try {
         const network = await networkManager.create(req.body);
@@ -19,6 +20,7 @@ router.post("/create", validateNetworkName, async (req, res) => {
 
 });
 
+// OK TODO:TEST WITH HOSTS
 router.post("/update", validateNetwork, validateNetworkName, async (req, res) => {
     const wasUpdated = await networkManager.update(req.body);
     if(!wasUpdated) {
@@ -30,6 +32,8 @@ router.post("/update", validateNetwork, validateNetworkName, async (req, res) =>
 
 });
 
+
+// OK
 router.post("/delete", validateNetwork, async (req, res) => {
     const wasDeleted = await networkManager.delete(req.body.networkId);
     if(!wasDeleted) {
@@ -40,6 +44,7 @@ router.post("/delete", validateNetwork, async (req, res) => {
     res.status(200).json({message:"Network deleted."})
 });
 
+// OK
 router.get("/all", async (req, res) => {
     const user = req.user;
     const userFromDB = await userManager.findByEmail(user.email);
@@ -48,8 +53,15 @@ router.get("/all", async (req, res) => {
     res.status(200).json(filteredNetworks)
 });
 
+// OK
 router.get("/:networkId", validateNetwork, async (req, res) => {
-    res.status(200).json(req.network);
+    const network = req.network;
+    const hosts = await hostManager.findByIds(network.hosts);
+    if (!network) {
+        return res.status(404).json({message: "Network not found"})
+    }
+    network.hosts = hosts;
+    res.status(200).json(network);
 });
 
 module.exports = router;

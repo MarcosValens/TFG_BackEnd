@@ -2,6 +2,7 @@ const { networkManager, userManager } = require("./../../services");
 
 async function validateNetwork(req, res, next) {
     const idNetwork = req.params.networkId || req.body.networkId;
+    console.log(idNetwork)
     const user = req.user;
     const userFromDB = await userManager.findByEmail(user.email);
     const network = userFromDB.networks.find(networkId => {
@@ -25,6 +26,10 @@ async function validateNetworkName(req, res, next) {
     const networkNameDB = networks.find(
         network => network && network.name === networkName
     );
+
+    if (!networkName) {
+        return res.status(400).json({message: "You must provide a name"})
+    }
     if (!networkNameDB) {
         return next();
     }

@@ -21,7 +21,7 @@ router.post("/save", async (req, res) => {
 
     network.hosts.push(host);
     await network.save();
-    res.status(200).json({message: "OK"})
+    res.status(200).json({message: "Host saved successfully"})
 })
 
 router.use(host);
