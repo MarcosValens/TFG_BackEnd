@@ -1,6 +1,6 @@
 const router = require("express").Router();
 const passport = require("passport");
-const { networkManager, userManager } = require("./../services");
+const { networkManager, userManager, hostManager, portManager } = require("./../services");
 const { network: { validateNetworkName, validateNetwork } } = require("./../middlewares/validators");
 
 router.use(passport.authenticate("jwt"));
@@ -43,8 +43,7 @@ router.post("/delete", validateNetwork, async (req, res) => {
 router.get("/all", async (req, res) => {
     const user = req.user;
     const userFromDB = await userManager.findByEmail(user.email);
-    const networkPromises = userFromDB.networks.map(networkId => networkManager.findById(networkId));
-    const networks = await Promise.all(networkPromises);
+    const networks = await networkManager.findByIds(userFromDB.networks);
     const filteredNetworks = networks.filter(network => !!network);
     res.status(200).json(filteredNetworks)
 });

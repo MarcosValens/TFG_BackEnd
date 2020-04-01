@@ -42,6 +42,15 @@ class PortManager {
             return {};
         }
     }
+
+    async findByIds(ids) {
+        try {
+            const ports = await Port.find().where("_id").in(ids).exec();
+            return ports;
+        } catch(e) {
+            return []
+        }
+    }
 }
 
 module.exports = (() => {

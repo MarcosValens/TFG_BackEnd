@@ -1,7 +1,7 @@
 const { portManager } = require("./../../services");
 
 async function validatePort (req, res, next) {
-    const host = req.host;
+    const host = req.hostDb;
     const port = req.body.portId;
 
     const portId = host.ports.find((portId) => portId.toString() === port);

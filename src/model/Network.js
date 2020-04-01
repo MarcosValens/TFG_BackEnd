@@ -8,7 +8,7 @@ const networkSchema = new mongoose.Schema({
     gateway: {
         type: String
     },
-    Hosts: [{
+    hosts: [{
         type: mongoose.Schema.Types.ObjectId,
         ref: "host"
     }]

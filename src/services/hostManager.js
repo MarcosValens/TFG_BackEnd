@@ -42,6 +42,15 @@ class HostManager {
             return {};
         }
     }
+
+    async findByIds(ids) {
+        try {
+            const hosts = await Host.find().where("_id").in(ids).exec();
+            return hosts;
+        } catch(e) {
+            return []
+        }
+    }
 }
 
 module.exports = (() => {

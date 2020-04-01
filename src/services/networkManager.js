@@ -42,6 +42,15 @@ class NetworkManager {
             return {};
         }
     }
+    
+    async findByIds(ids) {
+        try {
+            const networks = await Network.find().where("_id").in(ids).exec();
+            return networks;
+        } catch(e) {
+            return
+        }
+    }
 }
 
 module.exports = (() => {

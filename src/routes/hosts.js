@@ -1,7 +1,7 @@
 const router = require("express").Router();
 const passport = require("passport");
 const {network: {validateNetwork}, host} = require("./../middlewares/validators");
-const { hostManager } = require("./../services");
+const { hostManager, portManager } = require("./../services");
 
 
 router.use(passport.authenticate("jwt"));
@@ -10,15 +10,27 @@ router.use(validateNetwork);
 
 router.get("/all", async (req, res) => {
     const hostIds = req.network.hosts;
-    const hostPromises = hostIds.map(hostId => hostManager.findById(hostId));
-    const hosts = await Promise.all(hostPromises);
+    const hosts = await hostManager.findByIds(hostIds);
     res.status(200).json(hosts);
 });
+
+router.post("/save", async (req, res) => {
+    const host = await hostManager.create(req.body);
+    const network = req.network;
+    console.log(network)
+
+    network.hosts.push(host);
+    await network.save();
+    res.status(200).json({message: "OK"})
+})
 
 router.use(host);
 
 router.get("/:hostId", async (req, res) => {
-    res.status(200).json(req.host);
+    const host = req.hostDb;
+    const ports = await portManager.findByIds(host.ports);
+    host.ports = ports;
+    res.status(200).json(host);
 });
 
 router.post("/", async (req, res) => {
@@ -30,6 +42,7 @@ router.post("/", async (req, res) => {
     }
     res.status(200).json({message: "Host updated successfully"})
 });
+
 
 router.post("/delete", async (req, res) => {
     const gotDeleted = await hostManager.delete(req.body.hostId);
