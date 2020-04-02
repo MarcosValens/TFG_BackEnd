@@ -31,10 +31,4 @@ router.post("/delete", port, (req, res) => {
     portManager.delete(req.port)
 });
 
-router.get("/:networkId/:hostId/all", async (req, res) => {
-    const host = req.hostDb;
-    const ports = await portManager.findByIds(host.ports);
-    res.status(200).json(ports)
-});
-
 module.exports = router;

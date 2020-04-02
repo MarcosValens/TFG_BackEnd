@@ -13,8 +13,8 @@ async function manyHosts(hosts) {
 
 async function singleHost(host) {
     const hostId = host._id;
-    const portIds = host.ports.map(({ _id }) => _id);
-    const portsDeleted = await manyPorts(portIds);
+    const ports = host.ports.map((port) => port);
+    const portsDeleted = await manyPorts([ports]);
     if (!portsDeleted) {
         return false;
     }
