@@ -16,4 +16,7 @@ const portSchema = new mongoose.Schema({
 
 const Port = mongoose.model('port', portSchema);
 
-module.exports = Port;
+module.exports = {
+    model: Port,
+    schema: portSchema
+}

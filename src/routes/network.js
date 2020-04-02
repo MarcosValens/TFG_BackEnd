@@ -35,7 +35,8 @@ router.post("/update", validateNetwork, validateNetworkName, async (req, res) =>
 
 // OK
 router.post("/delete", validateNetwork, async (req, res) => {
-    const wasDeleted = await networkManager.delete(req.body.networkId);
+    console.log(req.network);
+    //const wasDeleted = await networkManager.delete(req.body.networkId);
     if(!wasDeleted) {
         return res.status(500).json({
             message:"Error deleting network."

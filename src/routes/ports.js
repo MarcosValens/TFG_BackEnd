@@ -11,6 +11,9 @@ router.post("/save", async (req, res) => {
     try {
         const hostDb = req.hostDb;
         const port = await portManager.create(req.body);
+        if (!port) {
+            return res.status(500).json({message: "Something went wrong OOPS!"})
+        }
         hostDb.ports.push(port);
         await hostDb.save();
         res.status(200).json({message: "OK"})

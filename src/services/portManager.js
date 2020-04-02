@@ -1,7 +1,7 @@
 const data = {
     instance: null
 };
-const Port = require("./../model/Port");
+const Port = require("./../model/Port").model;
 
 class PortManager {
     constructor() {
@@ -12,6 +12,7 @@ class PortManager {
             const portCreated = await Port.create({port, open, service});
             return portCreated;
         } catch (ex) {
+            console.log(ex)
             return null;
         }
     }
@@ -49,6 +50,15 @@ class PortManager {
             return ports;
         } catch(e) {
             return []
+        }
+    }
+
+    async deleteMany(portIds) {
+        try {
+            await Port.deleteMany({_id: { $in: portIds }});
+            return true;
+        } catch(e) {
+            return false;
         }
     }
 }
