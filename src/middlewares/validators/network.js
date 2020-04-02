@@ -2,9 +2,13 @@ const { networkManager, userManager } = require("./../../services");
 
 async function validateNetwork(req, res, next) {
     const idNetwork = req.params.networkId || req.body.networkId;
-    console.log(idNetwork)
     const user = req.user;
     const userFromDB = await userManager.findByEmail(user.email);
+    
+    if (!userFromDB) {
+        return res.status(401).json({message: "User not found"});
+    }
+    
     const network = userFromDB.networks.find(networkId => {
         return networkId.toString() === idNetwork
     });
@@ -13,6 +17,7 @@ async function validateNetwork(req, res, next) {
     }
     const networkFromDataBase = await networkManager.findById(network);
     req.network = networkFromDataBase;
+    req.userDb = userFromDB;
     next();
 }
 

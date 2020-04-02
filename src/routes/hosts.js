@@ -2,7 +2,7 @@ const router = require("express").Router();
 const passport = require("passport");
 const {network: {validateNetwork}, host} = require("./../middlewares/validators");
 const { hostManager, portManager } = require("./../services");
-
+const {singleHost} = require("./../util").delete;
 
 router.use(passport.authenticate("jwt"));
 
@@ -45,7 +45,7 @@ router.post("/", async (req, res) => {
 
 
 router.post("/delete", async (req, res) => {
-    const gotDeleted = await hostManager.delete(req.body.hostId);
+    const gotDeleted = await singleHost(req.hostDb);
     if (!gotDeleted) {
         return res.status(500).json({message: "Could not delete that host"});
     }

@@ -4,21 +4,20 @@ const data = {
 const Host = require("./../model/Host");
 
 class HostManager {
-    constructor() {
-    }
+    constructor() {}
 
-    async create({ipAddress, description = "", ports = []}) {
+    async create({ ipAddress, description = "", ports = [] }) {
         try {
-            const host = await Host.create({ipAddress, description, ports});
+            const host = await Host.create({ ipAddress, description, ports });
             return host;
         } catch (ex) {
             return null;
         }
     }
 
-    async update({ipAddress, description = "", ports = []}) {
+    async update({ ipAddress, description = "", ports = [] }) {
         try {
-            await Host.update({ipAddress, description, ports});
+            await Host.update({ ipAddress, description, ports });
             return true;
         } catch (ex) {
             return null;
@@ -27,7 +26,7 @@ class HostManager {
 
     async delete(hostId) {
         try {
-            await Host.deleteOne({_id: hostId});
+            await Host.deleteOne({ _id: hostId });
             return true;
         } catch (ex) {
             return null;
@@ -45,12 +44,26 @@ class HostManager {
 
     async findByIds(ids) {
         try {
-            const hosts = await Host.find().where("_id").in(ids).exec();
+            const hosts = await Host.find()
+                .where("_id")
+                .in(ids)
+                .exec();
             return hosts;
-        } catch(e) {
-            return []
+        } catch (e) {
+            return [];
         }
     }
+
+    async deleteMany(hostIds) {
+        try {
+            await Host.deleteMany({ _id: { $in: hostIds } });
+            return true;
+        } catch (e) {
+            return false;
+        }
+    }
+
+    
 }
 
 module.exports = (() => {

@@ -48,6 +48,16 @@ class UserManager {
             return false;
         }
     }
+
+    async deleteNetwork(networkId, user) {
+        try {
+            await user.networks.pull(networkId);
+            await user.save();
+            return true;
+        } catch(e) {
+            return false;
+        }
+    }
 }
 
 module.exports = (() => {
