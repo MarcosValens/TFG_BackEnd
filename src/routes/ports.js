@@ -23,7 +23,7 @@ router.post("/save", async (req, res) => {
     
 })
 
-router.post("/update", port, (req, res) => {
+router.post("/update", port, async (req, res) => {
     const gotUpdated = await portManager.update(req.port);
     if (!gotUpdated) {
         return res.status(500).json({message: "Something went wrong OOPS!"})
@@ -31,7 +31,7 @@ router.post("/update", port, (req, res) => {
     res.status(200).json({message: "Port updated successfully"})
 });
 
-router.post("/delete", port, (req, res) => {
+router.post("/delete", port, async (req, res) => {
     const gotDeleted = await singlePort(req.port);
     if (!gotDeleted) {
         return res.status(500).json({message: "Something went wrong OOPS!"})
