@@ -33,7 +33,7 @@ router.get("/:hostId", async (req, res) => {
     res.status(200).json(host);
 });
 
-router.post("/", async (req, res) => {
+router.post("/update", async (req, res) => {
     const hostData = req.body.host;
     const hostWasUpdated = await hostManager.update(hostData);
 
