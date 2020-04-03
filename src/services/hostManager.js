@@ -15,9 +15,9 @@ class HostManager {
         }
     }
 
-    async update({ ipAddress, description = "", ports = [] }) {
+    async update({ _id, ipAddress, description = "", ports = [] }) {
         try {
-            await Host.update({ ipAddress, description, ports });
+            await Host.updateOne({_id }, { ipAddress, description, ports });
             return true;
         } catch (ex) {
             return null;

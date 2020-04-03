@@ -6,13 +6,6 @@ const {singleHost} = require("./../util").delete;
 
 router.use(passport.authenticate("jwt"));
 
-router.use(validateNetwork);
-
-router.get("/all", async (req, res) => {
-    const hostIds = req.network.hosts;
-    const hosts = await hostManager.findByIds(hostIds);
-    res.status(200).json(hosts);
-});
 
 router.post("/save", async (req, res) => {
     const host = await hostManager.create(req.body);
@@ -23,6 +16,15 @@ router.post("/save", async (req, res) => {
     await network.save();
     res.status(200).json({message: "Host saved successfully"})
 })
+
+router.use(validateNetwork);
+
+router.get("/all", async (req, res) => {
+    const hostIds = req.network.hosts;
+    const hosts = await hostManager.findByIds(hostIds);
+    res.status(200).json(hosts);
+});
+
 
 router.use(host);
 
