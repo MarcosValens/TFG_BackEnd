@@ -1,10 +1,9 @@
 const { networkManager, userManager } = require("./../../services");
 
 async function validateNetwork(req, res, next) {
-    const idNetwork = req.params.networkId || req.body.networkId;
+    const idNetwork = req.params.networkId || req.body.networkId || req.query.networkId;
     const user = req.user;
     const userFromDB = await userManager.findByEmail(user.email);
-    
     if (!userFromDB) {
         return res.status(401).json({message: "User not found"});
     }
