@@ -2,23 +2,33 @@ const data = {
     instance: null
 };
 const Port = require("./../model/Port").model;
-const Host = require("./../model/Host");
-class PortManager {
-    constructor() {}
 
-    async create({ port, open, service = "" }) {
+class PortManager {
+    constructor() {
+    }
+
+    async create({port, open, service = ""}) {
         try {
-            const portCreated = await Port.create({ port, open, service });
+            const portCreated = await Port.create({port, open, service});
             return portCreated;
         } catch (ex) {
-            console.log(ex);
+            console.log(ex)
+            return null;
+        }
+    }
+
+    async update({_id, port, open, service = ""}) {
+        try {
+            await Port.updateOne({_id: _id}, {port, open, service});
+            return true;
+        } catch (ex) {
             return null;
         }
     }
 
     async delete(portId) {
         try {
-            await Port.deleteOne({ _id: portId });
+            await Port.deleteOne({_id: portId});
             return true;
         } catch (ex) {
             return null;
@@ -36,21 +46,18 @@ class PortManager {
 
     async findByIds(ids) {
         try {
-            const ports = await Port.find()
-                .where("_id")
-                .in(ids)
-                .exec();
+            const ports = await Port.find().where("_id").in(ids).exec();
             return ports;
-        } catch (e) {
-            return [];
+        } catch(e) {
+            return []
         }
     }
 
     async deleteMany(portIds) {
         try {
-            await Port.deleteMany({ _id: { $in: portIds } });
+            await Port.deleteMany({_id: { $in: portIds }});
             return true;
-        } catch (e) {
+        } catch(e) {
             return false;
         }
     }

@@ -34,7 +34,8 @@ router.get("/all", async (req, res) => {
 
 router.post("/update", port, async (req, res) => {
     const gotUpdatedOnHost = await hostManager.updatePort(req.hostDb, req.body.port); 
-    if (!gotUpdatedOnHost) {
+    const gotUpdated = await portManager.update(req.body.port);
+    if (!gotUpdatedOnHost || !gotUpdated) {
         return res.status(500).json({ message: "Something went wrong OOPS!" });
     }
     res.status(200).json({ message: "Port updated successfully" });
