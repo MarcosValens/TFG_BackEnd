@@ -2,7 +2,7 @@ const router = require("express").Router();
 const passport = require("passport");
 const {network: {validateNetwork}, host} = require("./../middlewares/validators");
 const { hostManager, portManager } = require("./../services");
-const {singleHost} = require("./../util").delete;
+const {singleHost} = require("./../util").delete.hosts;
 
 router.use(passport.authenticate("jwt"));
 
