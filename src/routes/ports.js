@@ -2,7 +2,7 @@ const router = require("express").Router();
 const passport = require("passport");
 const { portManager, hostManager } = require("./../services");
 const { port, network: {validateNetwork}, host } = require("./../middlewares/validators");
-
+const { singlePort } = require("./../util").delete.ports;
 router.use(passport.authenticate("jwt"));
 
 router.use([validateNetwork, host])
@@ -24,7 +24,7 @@ router.post("/save", async (req, res) => {
 })
 
 router.post("/update", port, (req, res) => {
-    const gotUpdated = await hostManager.update(req.port);
+    const gotUpdated = await portManager.update(req.port);
     if (!gotUpdated) {
         return res.status(500).json({message: "Something went wrong OOPS!"})
     }
@@ -32,7 +32,7 @@ router.post("/update", port, (req, res) => {
 });
 
 router.post("/delete", port, (req, res) => {
-    const gotDeleted = await hostManager.delete(req.port);
+    const gotDeleted = await singlePort(req.port);
     if (!gotDeleted) {
         return res.status(500).json({message: "Something went wrong OOPS!"})
     }
