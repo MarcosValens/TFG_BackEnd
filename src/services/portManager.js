@@ -22,6 +22,7 @@ class PortManager {
             await Port.updateOne({_id}, {port, open, service});
             return true;
         } catch (ex) {
+            console.log(ex)
             return null;
         }
     }

@@ -25,6 +25,7 @@ router.post("/save", async (req, res) => {
 
 router.post("/update", port, async (req, res) => {
     const gotUpdated = await portManager.update(req.body.port);
+    console.log(req.body.port)
     if (!gotUpdated) {
         return res.status(500).json({message: "Something went wrong OOPS!"})
     }
