@@ -15,12 +15,29 @@ class HostManager {
         }
     }
 
-    async update({ _id, ipAddress, description = "", ports = [] }) {
+    async update(host) {
         try {
-            await Host.updateOne({_id }, { ipAddress, description, ports });
+            await Host.updateOne({_id: host._id }, { ipAddress: host.ipAddress, description: host.description });
             return true;
         } catch (ex) {
             return null;
+        }
+    }
+
+    async updatePort(host, port) {
+        try {
+            await Host.updateOne(
+                { _id: host._id, "ports._id": port._id },
+                {
+                    $set: {
+                        "ports.$": port
+                    }
+                }
+            )
+           return true;
+        } catch(e) {
+            console.log(e)
+            return false;
         }
     }
 

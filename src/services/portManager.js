@@ -19,7 +19,7 @@ class PortManager {
 
     async update({_id, port, open, service = ""}) {
         try {
-            await Port.updateOne({_id}, {port, open, service});
+            await Port.updateOne({_id: _id}, {port, open, service});
             return true;
         } catch (ex) {
             console.log(ex)
