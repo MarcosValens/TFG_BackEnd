@@ -13,7 +13,7 @@ router.post("/create", validateNetworkName, async (req, res) => {
         const userFromDB = await userManager.findByEmail(user.email);
         userFromDB.networks.push(network);
         await userFromDB.save();
-        res.status(200).json({message: "Network saved!"})
+        res.status(200).json(network)
     } catch (error) {
         res.status(500).json({message: "This network already exists"})
     }
