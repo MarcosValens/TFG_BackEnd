@@ -40,7 +40,7 @@ async function validateNetworkName(req, res, next) {
     const isSelfNetwork =
         networkId && networkNameDB._id.toString() === networkId;
     if (!isSelfNetwork || !networkId) {
-        return res.status(401).json({ message: "This name already exists" });
+        return res.status(400).json({ message: "This name already exists" });
     }
 
     next();
