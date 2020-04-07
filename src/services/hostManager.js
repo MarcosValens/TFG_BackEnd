@@ -6,10 +6,10 @@ const Host = require("./../model/Host");
 class HostManager {
     constructor() {}
 
-    async create({ ipAddress, description = "", ports = [] }) {
+    async create(hosts) {
         try {
-            const host = await Host.create({ ipAddress, description, ports });
-            return host;
+            const hostsCreated = await Host.create(hosts);
+            return hostsCreated;
         } catch (ex) {
             return null;
         }

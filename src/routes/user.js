@@ -13,6 +13,7 @@ router.get("/", async (req, res) => {
     try {
         const user = await userManager.findByEmail(req.user.email);
         const publicUser = {
+            _id: user._id,
             email: user.email,
             name: user.name,
             surname: user.surname,

@@ -9,13 +9,12 @@ router.use(passport.authenticate("jwt"));
 router.use(validateNetwork);
 
 router.post("/save", async (req, res) => {
-    const host = await hostManager.create(req.body);
+    const hostsFromRequest = req.body.host || req.body.hosts;
+    const hosts = await hostManager.create(hostsFromRequest);
     const network = req.network;
-    console.log(network)
-
-    network.hosts.push(host);
+    hosts.forEach(host => network.hosts.push(host)) 
     await network.save();
-    res.status(200).json({message: "Host saved successfully"})
+    res.status(200).json({network})
 })
 
 

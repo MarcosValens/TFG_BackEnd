@@ -7,10 +7,10 @@ class PortManager {
     constructor() {
     }
 
-    async create({port, open, service = ""}) {
+    async create(ports) {
         try {
-            const portCreated = await Port.create({port, open, service});
-            return portCreated;
+            const portsCreated = await Port.create(ports);
+            return portsCreated;
         } catch (ex) {
             console.log(ex)
             return null;
