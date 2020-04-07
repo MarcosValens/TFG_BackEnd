@@ -22,6 +22,7 @@ router.post("/create", validateNetworkName, async (req, res) => {
 
 // OK TODO:TEST WITH HOSTS
 router.post("/update", validateNetwork, validateNetworkName, async (req, res) => {
+    console.log(req.body)
     const wasUpdated = await networkManager.update(req.body);
     if(!wasUpdated) {
         return res.status(500).json({

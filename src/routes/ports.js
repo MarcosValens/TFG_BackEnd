@@ -4,9 +4,10 @@ const { portManager, hostManager } = require("./../services");
 const {
     port,
     network: { validateNetwork },
-    host
+    host,
 } = require("./../middlewares/validators");
 const { singlePort } = require("./../util").delete.ports;
+const { areNewPorts } = require("./../util").check.ports;
 router.use(passport.authenticate("jwt"));
 
 router.use([validateNetwork, host]);
@@ -14,7 +15,16 @@ router.use([validateNetwork, host]);
 router.post("/save", async (req, res) => {
     try {
         const hostDb = req.hostDb;
-        const port = await portManager.create(req.body);
+        const newPorts = await areNewPorts(hostDb, req.body.ports);
+        if (!newPorts.length) {
+            return res.status(200).json({ ports: hostDb.ports });
+        }
+        newPorts.forEach((port) => {
+            hostDb.ports.push(port);
+        });
+        await hostDb.save();
+        /*
+const port = await portManager.create(req.body);
         if (!port) {
             return res
                 .status(500)
@@ -22,8 +32,10 @@ router.post("/save", async (req, res) => {
         }
         hostDb.ports.push(port);
         await hostDb.save();
-        res.status(200).json({ message: "OK" });
+        */
+        res.status(200).json({ ports: hostDb.ports });
     } catch (e) {
+        console.log(e);
         res.status(500).json({ message: "Something went wrong OOPS!" });
     }
 });
@@ -33,7 +45,10 @@ router.get("/all", async (req, res) => {
 });
 
 router.post("/update", port, async (req, res) => {
-    const gotUpdatedOnHost = await hostManager.updatePort(req.hostDb, req.body.port); 
+    const gotUpdatedOnHost = await hostManager.updatePort(
+        req.hostDb,
+        req.body.port
+    );
     const gotUpdated = await portManager.update(req.body.port);
     if (!gotUpdatedOnHost || !gotUpdated) {
         return res.status(500).json({ message: "Something went wrong OOPS!" });
