@@ -16,14 +16,12 @@ class NetworkManager {
         }
     }
 
-    async update({networkId, name, gateway = "", hosts = []}) {
+    async update(network, {name, gateway = ""}) {
         try {
-            if (hosts.length) {
-                await Network.updateOne({_id: networkId}, {name, gateway, hosts});
-            } else {
-                await Network.updateOne({_id: networkId}, {name, gateway});
-            }
-            return true;
+            network.name = name;
+            network.gateway = gateway;
+            await network.save();
+            return network;
         } catch (ex) {
             return null;
         }

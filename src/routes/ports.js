@@ -12,17 +12,17 @@ router.use(passport.authenticate("jwt"));
 
 router.use([validateNetwork, host]);
 
-router.post("/save", async (req, res) => {
+router.post("/create", async (req, res) => {
     try {
-        const hostDb = req.hostDb;
-        const newPorts = await areNewPorts(hostDb, req.body.ports);
+        const host = req.hostDb;
+        const newPorts = await areNewPorts(host, req.body.ports);
         if (!newPorts.length) {
-            return res.status(200).json({ ports: hostDb.ports });
+            return res.status(200).json(host);
         }
         newPorts.forEach((port) => {
-            hostDb.ports.push(port);
+            host.ports.push(port);
         });
-        await hostDb.save();
+        await host.save();
         /*
 const port = await portManager.create(req.body);
         if (!port) {
@@ -33,7 +33,7 @@ const port = await portManager.create(req.body);
         hostDb.ports.push(port);
         await hostDb.save();
         */
-        res.status(200).json({ ports: hostDb.ports });
+        res.status(200).json(host);
     } catch (e) {
         console.log(e);
         res.status(500).json({ message: "Something went wrong OOPS!" });
