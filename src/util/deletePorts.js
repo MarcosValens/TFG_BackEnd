@@ -7,8 +7,11 @@ async function manyPorts(ports) {
     return resolved.indexOf(false) === -1;
 }
 
-async function singlePort(port) {
-    return await portManager.delete(port._id);
+async function singlePort(host, port) {
+    host.ports.pull(port);
+    await host.save();
+    const portGotDeleted = await portManager.delete(port._id);
+    return portGotDeleted;
 }
 
 

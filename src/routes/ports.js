@@ -57,11 +57,11 @@ router.post("/update", port, async (req, res) => {
 });
 
 router.post("/delete", port, async (req, res) => {
-    const gotDeleted = await singlePort(req.port);
+    const gotDeleted = await singlePort(req.hostDb, req.portDb);
     if (!gotDeleted) {
         return res.status(500).json({ message: "Something went wrong OOPS!" });
     }
-    res.status(200).json({ message: "Port deleted successfully" });
+    res.status(200).json({ host: req.hostDb });
 });
 
 module.exports = router;
