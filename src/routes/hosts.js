@@ -1,9 +1,13 @@
 const router = require("express").Router();
 const passport = require("passport");
+
 const {
     network: { validateNetwork },
     host,
 } = require("./../middlewares/validators");
+
+const { hosts } = require("./../route-validators");
+
 const { hostManager, portManager } = require("./../services");
 const { singleHost } = require("./../util").delete.hosts;
 
@@ -35,7 +39,11 @@ router.get("/:hostId", async (req, res) => {
     res.status(200).json(host);
 });
 
-router.post("/update", async (req, res) => {
+router.post("/update", hosts.update, async (req, res) => {
+    const errors = hosts.validate(req);
+    if (!errors.isEmpty()) {
+        return res.status(422).json({ errors: errors.array() });
+    }
     const hostData = req.body.host;
     const hostWasUpdated = await hostManager.update(hostData);
 
