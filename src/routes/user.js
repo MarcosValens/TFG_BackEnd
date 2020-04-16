@@ -3,9 +3,17 @@ const passport = require("passport");
 const { userManager } = require("./../services");
 const { upload, findImage } = require("./../middlewares");
 const { user } = require("./../route-validators");
+
+
+router.post("/isUnique", async(req, res) => {
+    const user = await userManager.findByEmail(req.body.email);
+    res.status(200).json({unique: !user});
+});
+
 router.get("/image/:id", findImage, (req, res) =>
     res.status(200).sendFile(req.image)
 );
+
 
 router.use(passport.authenticate("jwt"));
 
