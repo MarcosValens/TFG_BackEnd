@@ -11,7 +11,7 @@ module.exports = function ({ check, validationResult }) {
                 .withMessage("Name cannot be empty")
                 .trim()
                 .escape(),
-            chekc("surname")
+            check("surname")
                 .isString()
                 .withMessage("Please enter a valid surname")
                 .isLength({ min: 3, max: 30 })
