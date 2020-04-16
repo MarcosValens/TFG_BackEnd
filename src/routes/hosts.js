@@ -17,17 +17,17 @@ router.use(validateNetwork);
 
 router.post("/create", async (req, res) => {
     const hostsFromRequest = req.body.host || req.body.hosts;
-    const hosts = await hostManager.create(hostsFromRequest);
+    const hostsCreated = await hostManager.create(hostsFromRequest);
     const network = req.network;
-    hosts.forEach((host) => network.hosts.push(host));
+    hostsCreated.forEach((host) => network.hosts.push(host));
     await network.save();
     res.status(200).json(network);
 });
 
 router.get("/all", async (req, res) => {
     const hostIds = req.network.hosts;
-    const hosts = await hostManager.findByIds(hostIds);
-    res.status(200).json(hosts);
+    const hostsFetched = await hostManager.findByIds(hostIds);
+    res.status(200).json(hostsFetched);
 });
 
 router.use(host);
