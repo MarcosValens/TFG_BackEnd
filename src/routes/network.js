@@ -23,13 +23,14 @@ router.post(
             if (!errors.isEmpty()) {
                 return res.status(422).json({ errors: errors.array() });
             }
-            const network = await networkManager.create(req.body);
+            const networkCreated = await networkManager.create(req.body);
             const user = req.user;
             const userFromDB = await userManager.findByEmail(user.email);
-            userFromDB.networks.push(network);
+            userFromDB.networks.push(networkCreated);
             await userFromDB.save();
-            res.status(200).json(network);
+            res.status(200).json(networkCreated);
         } catch (error) {
+            console.log(error)
             res.status(500).json({ message: "This network already exists" });
         }
     }
@@ -71,8 +72,8 @@ router.post("/delete", validateNetwork, async (req, res) => {
 // OK
 router.get("/all", async (req, res) => {
     const userFromDB = await userManager.findByEmail(req.user.email);
-    const networks = await networkManager.findByIds(userFromDB.networks);
-    const filteredNetworks = networks.filter((network) => !!network);
+    const networksFetched = await networkManager.findByIds(userFromDB.networks);
+    const filteredNetworks = networksFetched.filter((network) => !!network);
     res.status(200).json(filteredNetworks);
 });
 

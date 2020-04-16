@@ -25,6 +25,7 @@ async function validateNetwork(req, res, next) {
 
 async function validateNetworkName(req, res, next) {
     const networkName = req.body.name;
+    console.log(networkName)
     const user = req.user;
     const userFromDB = await userManager.findByEmail(user.email);
     const networkPromises = userFromDB.networks.map(networkManager.findById);

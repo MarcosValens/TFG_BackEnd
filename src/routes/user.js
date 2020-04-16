@@ -13,13 +13,13 @@ router.use(passport.authenticate("jwt"));
 
 router.get("/", async (req, res) => {
     try {
-        const user = await userManager.findByEmail(req.user.email);
+        const userDb = await userManager.findByEmail(req.user.email);
         const publicUser = {
-            _id: user._id,
-            email: user.email,
-            name: user.name,
-            surname: user.surname,
-            networks: user.networks,
+            _id: userDb._id,
+            email: userDb.email,
+            name: userDb.name,
+            surname: userDb.surname,
+            networks: userDb.networks,
         };
         res.status(200).json(publicUser);
     } catch (ex) {
@@ -37,12 +37,12 @@ router.post(
             if (!errors.isEmpty()) {
                 return res.status(422).json({ errors: errors.array() });
             }
-            const _user = await userManager.findByEmail(req.user.email);
+            const userDb = await userManager.findByEmail(req.user.email);
             const userData = {
                 photo: req.file,
                 data: req.body,
             };
-            const didUpdate = await userManager.update(_user, userData);
+            const didUpdate = await userManager.update(userDb, userData);
             if (!didUpdate) {
                 return res.status(400).json({ message: "Check your fields" });
             }
