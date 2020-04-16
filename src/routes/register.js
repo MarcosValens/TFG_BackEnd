@@ -1,13 +1,10 @@
 const router = require("express").Router();
 const { userManager } = require("./../services");
 
-const { validationResult } = require("express-validator");
+const { register } = require("./route-validators");
 
-const { register } = require("./../middlewares/validators");
-
-router.post("/", register, async (req, res) => {
-    const errors = validationResult(req);
-    console.log(errors.errors)
+router.post("/", register.register, async (req, res) => {
+    const errors = register.validate(req);
     if (!errors.isEmpty()) {
         return res.status(422).json({ errors: errors.array() });
     }

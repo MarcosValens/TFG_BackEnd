@@ -1,37 +1,51 @@
 const router = require("express").Router();
 const passport = require("passport");
-const {
-    networkManager,
-    userManager,
-    hostManager,
-    portManager,
-} = require("./../services");
+const { networkManager, userManager, hostManager } = require("./../services");
+
+const { network } = require("./route-validators");
+
 const {
     network: { validateNetworkName, validateNetwork },
 } = require("./../middlewares/validators");
+
 const { wipe } = require("./../util").delete.networks;
+
 router.use(passport.authenticate("jwt"));
 
 // OK
-router.post("/create", validateNetworkName, async (req, res) => {
-    try {
-        const network = await networkManager.create(req.body);
-        const user = req.user;
-        const userFromDB = await userManager.findByEmail(user.email);
-        userFromDB.networks.push(network);
-        await userFromDB.save();
-        res.status(200).json(network);
-    } catch (error) {
-        res.status(500).json({ message: "This network already exists" });
+router.post(
+    "/create",
+    validateNetworkName,
+    network.create,
+    async (req, res) => {
+        try {
+            const errors = network.validate(req);
+            if (!errors.isEmpty()) {
+                return res.status(422).json({ errors: errors.array() });
+            }
+            const network = await networkManager.create(req.body);
+            const user = req.user;
+            const userFromDB = await userManager.findByEmail(user.email);
+            userFromDB.networks.push(network);
+            await userFromDB.save();
+            res.status(200).json(network);
+        } catch (error) {
+            res.status(500).json({ message: "This network already exists" });
+        }
     }
-});
+);
 
 // OK TODO:TEST WITH HOSTS
 router.post(
     "/update",
     validateNetwork,
     validateNetworkName,
+    network.update,
     async (req, res) => {
+        const errors = network.validate(req);
+        if (!errors.isEmpty()) {
+            return res.status(422).json({ errors: errors.array() });
+        }
         const wasUpdated = await networkManager.update(req.network, req.body);
         if (!wasUpdated) {
             return res.status(500).json({
