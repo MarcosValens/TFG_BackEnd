@@ -10,7 +10,7 @@ const {
 
 const { singlePort } = require("./../util").delete.ports;
 const { areNewPorts } = require("./../util").check.ports;
-const { ports } = require("./route-validators");
+const { ports } = require("./../route-validators");
 
 router.use(passport.authenticate("jwt"));
 

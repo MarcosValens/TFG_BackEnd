@@ -2,7 +2,7 @@ const router = require("express").Router();
 const passport = require("passport");
 const { networkManager, userManager, hostManager } = require("./../services");
 
-const { network } = require("./route-validators");
+const { network } = require("./../route-validators");
 
 const {
     network: { validateNetworkName, validateNetwork },

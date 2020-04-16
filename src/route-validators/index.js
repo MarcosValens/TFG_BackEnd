@@ -10,5 +10,6 @@ module.exports = {
     hosts: require("./hosts")(data),
     ports: require("./ports")(data),
     register: require("./register")(data),
-    login: require("./login")(data)
+    login: require("./login")(data),
+    user: require("./user")(data)
 }

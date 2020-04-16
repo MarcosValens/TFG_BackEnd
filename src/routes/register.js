@@ -1,7 +1,7 @@
 const router = require("express").Router();
 const { userManager } = require("./../services");
 
-const { register } = require("./route-validators");
+const { register } = require("./../route-validators");
 
 router.post("/", register.register, async (req, res) => {
     const errors = register.validate(req);

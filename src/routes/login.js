@@ -1,7 +1,7 @@
 const router = require("express").Router();
 const passport = require("passport");
 
-const { login } = require("./route-validators");
+const { login } = require("./../route-validators");
 const { tokenManager, userManager } = require("./../services");
 
 router.post("/local", login.local, (req, res, next) => {

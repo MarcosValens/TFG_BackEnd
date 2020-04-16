@@ -6,7 +6,7 @@ const {
     host,
 } = require("./../middlewares/validators");
 
-const {hosts} = require("./route-validators");
+const { hosts } = require("./../route-validators");
 
 const { hostManager, portManager } = require("./../services");
 const { singleHost } = require("./../util").delete.hosts;

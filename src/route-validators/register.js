@@ -1,4 +1,4 @@
-const { userManager } = require("./../../services");
+const { userManager } = require("./../services");
 
 module.exports = function ({ check, validationResult }) {
     return {
