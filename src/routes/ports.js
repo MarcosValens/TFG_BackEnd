@@ -20,6 +20,8 @@ router.post("/create", async (req, res) => {
     try {
         const host = req.hostDb;
         const newPorts = await areNewPorts(host, req.body.ports);
+        console.log(req.body.ports);
+        console.log(host.ports);
         if (!newPorts.length) {
             return res.status(200).json(host);
         }
