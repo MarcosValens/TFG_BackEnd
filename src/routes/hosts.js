@@ -21,7 +21,7 @@ router.post("/create", async (req, res) => {
     const network = req.network;
     hostsCreated.forEach((host) => network.hosts.push(host));
     await network.save();
-    res.status(200).json(network);
+    res.status(200).json(hostsCreated);
 });
 
 router.get("/all", async (req, res) => {
