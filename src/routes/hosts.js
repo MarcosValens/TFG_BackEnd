@@ -27,7 +27,7 @@ router.post("/create", async (req, res) => {
 router.get("/all", async (req, res) => {
     const hostIds = req.network.hosts;
     const hostsFetched = await hostManager.findByIds(hostIds);
-    res.status(200).json(hostsFetched);
+    res.status(200).json(hostsFetched );
 });
 
 router.use(host);
