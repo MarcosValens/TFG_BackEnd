@@ -1,7 +1,7 @@
 module.exports = function ({ check, validationResult }) {
     return {
         update: [
-            check("port")
+            check("portNumber")
                 .isNumeric()
                 .notEmpty()
                 .custom((port) => port > 0 && port <= 65500 ? true : Promise.reject("Port range should be between 1 and 65500")),
