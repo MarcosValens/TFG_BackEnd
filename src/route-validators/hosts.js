@@ -5,7 +5,7 @@ module.exports = function ({ check, validationResult }) {
                 .isString()
                 .escape()
                 .custom((description) =>
-                    description.length < 3 || description.length > 255
+                    description.length > 255
                         ? Promise.reject(
                               "Description must be between 3 and 255 characters"
                           )
