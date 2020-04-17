@@ -6,7 +6,7 @@ async function areNewPorts(host, ports) {
         return true;
     }
     const portsThatAreNotRepeated = ports.filter(newPort => {
-        const portInPorts = host.ports.find(({port, open}) => port === newPort.port && open === newPort.open);
+        const portInPorts = host.ports.find(({port}) => port === parseInt(newPort.port));
         return !portInPorts;
     });
     if (!portsThatAreNotRepeated.length) {
