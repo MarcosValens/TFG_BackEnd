@@ -29,14 +29,14 @@ router.get("/", async (req, res) => {
 
 router.post(
     "/update",
-    user.update,
+    //user.update,
     upload.single("image"),
     async (req, res) => {
         try {
-            const errors = user.validate(req);
-            if (!errors.isEmpty()) {
-                return res.status(422).json({ errors: errors.array() });
-            }
+            //const errors = user.validate(req);
+            //if (!errors.isEmpty()) {
+            //    return res.status(422).json({ errors: errors.array() });
+            //}
             const userDb = await userManager.findByEmail(req.user.email);
             const userData = {
                 photo: req.file,
