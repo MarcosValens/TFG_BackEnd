@@ -9,6 +9,10 @@ const hostSchema = mongoose.Schema({
     description: {
         type: String
     },
+    alive: {
+        type: Boolean,
+        required: true
+    },
     ports: [portSchema]
 });
 

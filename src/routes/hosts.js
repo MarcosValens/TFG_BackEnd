@@ -17,6 +17,7 @@ router.use(validateNetwork);
 
 router.post("/create", async (req, res) => {
     const hostsFromRequest = req.body.host || req.body.hosts;
+    console.log(hostsFromRequest);
     const hostsCreated = await hostManager.create(hostsFromRequest);
     const network = req.network;
     hostsCreated.forEach((host) => network.hosts.push(host));
@@ -27,7 +28,20 @@ router.post("/create", async (req, res) => {
 router.get("/all", async (req, res) => {
     const hostIds = req.network.hosts;
     const hostsFetched = await hostManager.findByIds(hostIds);
-    res.status(200).json(hostsFetched );
+    res.status(200).json(hostsFetched);
+});
+
+router.post("/updateSweep", async (req, res) => {
+    const hostData = req.body.hosts;
+    const alives = hostData.map(({alive}) => alive);
+    const hostsGotUpdated = await hostManager.updateSweep(hostData, alives);
+
+    if (!hostsGotUpdated) {
+        return res
+            .status(500)
+            .json({ message: "There was an error updating the hosts list" });
+    }
+    res.status(200).json({ message: "Hosts updated successfully" });
 });
 
 router.use(host);

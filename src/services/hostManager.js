@@ -1,5 +1,5 @@
 const data = {
-    instance: null
+    instance: null,
 };
 const Host = require("./../model/Host");
 
@@ -17,9 +17,28 @@ class HostManager {
 
     async update(host) {
         try {
-            await Host.updateOne({_id: host._id }, { ipAddress: host.ipAddress, description: host.description });
+            await Host.updateOne(
+                { _id: host._id },
+                {
+                    ipAddress: host.ipAddress,
+                    description: host.description,
+                    alive: host.alive,
+                }
+            );
             return true;
         } catch (ex) {
+            return null;
+        }
+    }
+
+    async updateSweep(hostIds, alives) {
+        try {
+            console.log(alives);
+            const promises = hostIds.map((id, index) => Host.updateOne({_id: id}, {alive: alives[index]}));
+            await Promise.all(promises);
+            return true;
+        } catch (ex) {
+            console.log(ex)
             return null;
         }
     }
@@ -30,13 +49,13 @@ class HostManager {
                 { _id: host._id, "ports._id": port._id },
                 {
                     $set: {
-                        "ports.$": port
-                    }
+                        "ports.$": port,
+                    },
                 }
-            )
-           return true;
-        } catch(e) {
-            console.log(e)
+            );
+            return true;
+        } catch (e) {
+            console.log(e);
             return false;
         }
     }
@@ -61,10 +80,7 @@ class HostManager {
 
     async findByIds(ids) {
         try {
-            const hosts = await Host.find()
-                .where("_id")
-                .in(ids)
-                .exec();
+            const hosts = await Host.find().where("_id").in(ids).exec();
             return hosts;
         } catch (e) {
             return [];
@@ -79,8 +95,6 @@ class HostManager {
             return false;
         }
     }
-
-    
 }
 
 module.exports = (() => {
