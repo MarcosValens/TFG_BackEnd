@@ -1,5 +1,6 @@
 module.exports = {
     notFoundMiddleware: require('./404'),
     upload: require("./uploader"),
-    findImage: require("./findImage")
+    findImage: require("./findImage"),
+    deleteImage: require("./deleteImage")
 };

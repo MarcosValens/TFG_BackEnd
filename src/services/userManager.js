@@ -37,7 +37,7 @@ class UserManager {
     async update(userFromDataBase, userData) {
         userFromDataBase.name = userData.data.name || userFromDataBase.name;
         userFromDataBase.surname = userData.data.surname || userFromDataBase.surname;
-        if (userData.password) {
+        if (userData.data.password) {
             const hashedPassword = await this._hashPassword(userData.data.password);
             userFromDataBase.password = hashedPassword;
         }
@@ -46,6 +46,15 @@ class UserManager {
             return true;
         } catch(err) {
             return false;
+        }
+    }
+
+    async delete(userId) {
+        try {
+            await User.deleteOne({ _id: userId });
+            return true;
+        } catch (ex) {
+            return null;
         }
     }
 

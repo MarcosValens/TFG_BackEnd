@@ -21,13 +21,15 @@ module.exports = function ({ check, validationResult }) {
                 .withMessage("Surame cannot be empty")
                 .trim()
                 .escape(),
-            check("password")
-                .isLength({ min: 8, max: 50 })
-                .withMessage(
-                    "Password length must be more than 8 characters and max length of 50 characters"
-                )
-                .notEmpty()
-                .withMessage("Password cannot be empty"),
+            check("password").custom((password) => {
+                if (!password) return true;
+                if (password.length < 8 || password.length > 50) {
+                    return Promise.reject(
+                        "Password length must be more than 8 characters and max length of 50 characters"
+                    );
+                }
+                return true;
+            }),
         ],
         validate(req) {
             return validationResult(req);
