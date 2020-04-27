@@ -68,5 +68,3 @@ mongoose.connect(
     },
     () => console.log("Connected to DB!")
 );
-
-const db = mongoose.connection;
