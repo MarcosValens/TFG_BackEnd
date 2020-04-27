@@ -29,7 +29,6 @@ router.post("/create", async (req, res) => {
         await host.save();
         res.status(200).json(host);
     } catch (e) {
-        console.log(e);
         res.status(500).json({ message: "Something went wrong OOPS!" });
     }
 });

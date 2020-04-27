@@ -5,7 +5,6 @@ const storage = multer.diskStorage({
     async destination(req, file, cb) {
         const { id } = req.user;
         const dir = path.join(process.cwd(), `./static/${id}`);
-        console.log(id)
         const exists = await fs.existsSync(dir);
         if (!exists) {
             return fs.mkdir(dir, error => cb(error, dir));

@@ -48,7 +48,6 @@ router.delete("/delete", async (req, res) => {
         res.status(200).json({message: "User deleted successfully"});
 
     } catch (e) {
-        console.log(e);
         res.status(500).json({ message: "OOPs Something went wrong" });
     }
 });
@@ -59,10 +58,10 @@ router.post(
     upload.single("image"),
     async (req, res) => {
         try {
-            //const errors = user.validate(req);
-            //if (!errors.isEmpty()) {
-            //    return res.status(422).json({ errors: errors.array() });
-            //}
+            const errors = user.validate(req);
+            if (!errors.isEmpty()) {
+                return res.status(422).json({ errors: errors.array() });
+            }
             const userDb = await userManager.findByEmail(req.user.email);
             const userData = {
                 photo: req.file,
@@ -74,7 +73,6 @@ router.post(
             }
             res.status(200).json({ message: "Profile updated successfully!" });
         } catch (error) {
-            console.log(error);
             res.status(500).json({ message: "Something went wrong OOPS!" });
         }
     }

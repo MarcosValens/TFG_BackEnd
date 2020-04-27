@@ -11,18 +11,20 @@ async function createImage(url, id) {
     id = id.toString();
     const staticFolder = path.join(__dirname, `../../static`);
     const userFolder = path.join(staticFolder, id);
-    console.log(id)
     if (!fs.existsSync(userFolder)) {
         await fs.mkdirSync(userFolder);
     }
 
-    if (fs.readdirSync(userFolder).length) { return; }
+    if (fs.readdirSync(userFolder).length) {
+        return;
+    }
     const options = {
         url,
         dest: path.join(userFolder, `${id}.jpg`).toString(),
     };
     await saveImage.image(options);
 }
+
 
 router.post("/local", login.local, (req, res, next) => {
     const errors = login.validate(req);
@@ -40,14 +42,15 @@ router.post("/local", login.local, (req, res, next) => {
 
 router.get(
     "/google",
-    passport.authenticate("google", { scope: ["email", "profile"] }),
-    (req, res) => {
-        res.status(200);
+    (req, res, next) => {
+        const referer = req.get("referer");
+        passport.authenticate("google", { scope: ["email", "profile"], state: `${referer}#/main` })(req, res, next)
     }
 );
 
 router.get(
     "/google/callback",
+
     passport.authenticate("google"),
     async (req, res) => {
         try {
@@ -57,7 +60,6 @@ router.get(
                 name: { givenName, familyName = "" },
             } = req.user;
             const userJson = req.user._json;
-            console.log();
             let existingUser = await userManager.findByEmail(email);
             if (!existingUser) {
                 await userManager.create({
@@ -72,11 +74,8 @@ router.get(
             await createImage(userJson.picture, existingUser._id);
 
             const token = tokenManager.create(existingUser);
-            res.status(200).redirect(
-                `${process.env.CLIENT_URL_REDIRECT}?token=${token}`
-            );
+            res.status(200).redirect(`${req.query.state}?token=${token}`);
         } catch (error) {
-            console.log(error);
             res.status(500).json({ message: "Something went wrong" });
         }
     }

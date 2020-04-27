@@ -30,7 +30,6 @@ router.post(
             await userFromDB.save();
             res.status(200).json(networkCreated);
         } catch (error) {
-            console.log(error)
             res.status(500).json({ message: "This network already exists" });
         }
     }

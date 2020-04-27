@@ -1,11 +1,20 @@
 require("dotenv").config();
 
+const fs = require("fs");
 const path = require("path");
+const os = require("os");
+
 const mongoose = require("mongoose");
 const express = require("express");
 const app = express();
 const routes = require("./src/routes");
 const port = process.env.PORT || 8000;
+
+const staticsPath = path.join(__dirname, "static");
+
+if (!fs.existsSync(staticsPath)) {
+    fs.mkdirSync(staticsPath);
+}
 
 const helmet = require("helmet");
 const cors = require("cors");
@@ -14,11 +23,12 @@ const fileLogger = require("expressjs-file-logger");
 const { notFoundMiddleware } = require("./src/middlewares");
 
 const corsOptions = {
-    allowedHeaders: "Authorization, Origin, X-Requested-With, Content-Type, Accept",
+    allowedHeaders:
+        "Authorization, Origin, X-Requested-With, Content-Type, Accept",
     allowedMethods: "GET, POST, PUT, DELETE, OPTIONS",
     credentials: true,
     origin: process.env.WHITELIST || "http://localhost:8080",
-    maxAge: 3600
+    maxAge: 3600,
 };
 
 app.use(helmet());
@@ -29,29 +39,34 @@ app.use(express.json());
 app.use(passport.initialize());
 require("./config/passport-setup");
 
-if (process.env.MODE === "production") {
+if (process.env.NODE_ENV === "production") {
     app.use(
         fileLogger({
             storagePath: path.join(process.cwd(), "logs"),
             logMode: "all",
             logFilesExtension: ".log",
             logRequestBody: true,
-            logType: "hour"
+            logType: "hour",
         })
     );
 }
-app.use(express.static("static"))
+app.use(express.static(staticsPath));
 routes.forEach(({ path, router }) => app.use(`/${path}`, router));
 
 app.use(notFoundMiddleware);
 
-app.listen(port, () => {
-    console.log(`http://localhost:${port}`);
-});
+app.listen(port);
+const mongoUrl = `mongodb://${process.env.MONGO_USER}:${process.env.MONGO_PASSWORD}@mongo:27017/portscanner?authSource=admin`;
 
-// Connect to DB
 mongoose.connect(
-    process.env.MONGO_URL,
-    { useNewUrlParser: true, useUnifiedTopology: true, useCreateIndex: true, useFindAndModify: true },
+    mongoUrl,
+    {
+        useNewUrlParser: true,
+        useUnifiedTopology: true,
+        useCreateIndex: true,
+        useFindAndModify: true,
+    },
     () => console.log("Connected to DB!")
 );
+
+const db = mongoose.connection;

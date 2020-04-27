@@ -33,12 +33,10 @@ class HostManager {
 
     async updateSweep(hostIds, alives) {
         try {
-            console.log(alives);
             const promises = hostIds.map((id, index) => Host.updateOne({_id: id}, {alive: alives[index]}));
             await Promise.all(promises);
             return true;
         } catch (ex) {
-            console.log(ex)
             return null;
         }
     }
@@ -55,7 +53,6 @@ class HostManager {
             );
             return true;
         } catch (e) {
-            console.log(e);
             return false;
         }
     }
