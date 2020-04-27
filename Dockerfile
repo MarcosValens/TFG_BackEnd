@@ -2,6 +2,6 @@
 FROM node:latest
 WORKDIR /app
 COPY package*.json /app/
-RUN npm install && npm install -g nodemon
+RUN npm install && npm install -g pm2
 COPY . /app/
-CMD ["nodemon", "index.js"]
+CMD ["pm2", "start", "index.js"]

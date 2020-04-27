@@ -3,9 +3,9 @@ require("dotenv").config();
 const fs = require("fs");
 const path = require("path");
 const os = require("os");
-
 const mongoose = require("mongoose");
 const express = require("express");
+
 const app = express();
 const routes = require("./src/routes");
 const port = process.env.PORT || 8000;
@@ -20,6 +20,7 @@ const helmet = require("helmet");
 const cors = require("cors");
 const passport = require("passport");
 const fileLogger = require("expressjs-file-logger");
+const compression = require("compression");
 const { notFoundMiddleware } = require("./src/middlewares");
 
 const corsOptions = {
@@ -27,10 +28,10 @@ const corsOptions = {
         "Authorization, Origin, X-Requested-With, Content-Type, Accept",
     allowedMethods: "GET, POST, PUT, DELETE, OPTIONS",
     credentials: true,
-    origin: process.env.WHITELIST || "http://localhost:8080",
+    origin: process.env.WHITELIST.trim().split(",") || "http://localhost:8080",
     maxAge: 3600,
 };
-
+app.use(compression())
 app.use(helmet());
 app.use(cors(corsOptions));
 app.use(express.urlencoded({ extended: false }));
