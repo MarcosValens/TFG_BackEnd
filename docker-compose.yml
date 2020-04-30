@@ -28,6 +28,6 @@ services:
             - MONGO_INITDB_DATABASE=portscanner
     frontend:
         container_name: portscanner-frontend
-        image: tfgportscanner/portscanner-frontend:1.0.0
+        image: tfgportscanner/portscanner-frontend:1.0.1
         ports:
             - "8002:80"
