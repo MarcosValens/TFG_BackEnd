@@ -29,9 +29,12 @@ require('crypto').randomBytes(48, function(err, buffer) {
 })
 ```
 * SECRET
->The next two variables make reference to MongoDB credentials
+>The next two variables make reference to MongoDB credentials (for local development only)
 * MONGO_USER
 * MOGO_PASSWORD
+
+>This makes reference to the full url that mongoose will connect to (if it's for local development make sure you put in the same values as your MONGO_USER and MONGO_PASSWORD)
+* MONGO_URL
 
 >This variable is not required since it defaults to 10 rounds.
 >This variable specifies the rounds to create a salt for the encrypted password.
@@ -50,7 +53,13 @@ require('crypto').randomBytes(48, function(err, buffer) {
 * NODE_ENV
 
 ### Run
-To run this project all you have to do is type this command in the command line:
+To run this project for local development all you have to do is type this command in the command line, changing the corresponding environment variables to development:
 ```docker
 docker-compose up
+```
+
+To run this project for production all you have to do is type the following commands in the command line, changing the corresponding environment variables to production:
+```docker
+docker build -t portscanner-backend .
+docker run -p <output-port [8000]>:8000 -d --name backend portscanner-backend
 ```

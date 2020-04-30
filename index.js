@@ -60,7 +60,7 @@ app.listen(port);
 const mongoUrl = `mongodb://${process.env.MONGO_USER}:${process.env.MONGO_PASSWORD}@mongo:27017/portscanner?authSource=admin`;
 
 mongoose.connect(
-    mongoUrl,
+    process.env.MONGO_URL || mongoUrl,
     {
         useNewUrlParser: true,
         useUnifiedTopology: true,
