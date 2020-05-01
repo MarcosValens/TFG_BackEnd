@@ -1,4 +1,6 @@
-require("dotenv").config();
+if (!process.env.NODE_ENV || process.env.NODE_ENV !== "production") {
+    require("dotenv").config();
+}
 
 const fs = require("fs");
 const path = require("path");
@@ -57,6 +59,7 @@ routes.forEach(({ path, router }) => app.use(`/${path}`, router));
 app.use(notFoundMiddleware);
 
 app.listen(port);
+
 const mongoUrl = `mongodb://${process.env.MONGO_USER}:${process.env.MONGO_PASSWORD}@mongo:27017/portscanner?authSource=admin`;
 
 mongoose.connect(
