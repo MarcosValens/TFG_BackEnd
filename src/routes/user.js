@@ -15,6 +15,7 @@ router.use(async (req, res, next) => {
     req.userDb = userDb;
     next();
 });
+router.get("/check", (req, res) => res.status(200).send(req.userDb))
 router.get("/", async (req, res) => {
     try {
         const userDb = req.userDb;
@@ -54,7 +55,6 @@ router.delete("/delete", async (req, res) => {
 
 router.post(
     "/update",
-    user.update,
     upload.single("image"),
     async (req, res) => {
         try {

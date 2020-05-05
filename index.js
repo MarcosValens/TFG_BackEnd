@@ -25,12 +25,20 @@ const fileLogger = require("expressjs-file-logger");
 const compression = require("compression");
 const { notFoundMiddleware } = require("./src/middlewares");
 
+const whitelist = process.env.WHITELIST.trim().split(",");
+
 const corsOptions = {
     allowedHeaders:
         "Authorization, Origin, X-Requested-With, Content-Type, Accept",
     allowedMethods: "GET, POST, PUT, DELETE, OPTIONS",
     credentials: true,
-    origin: process.env.WHITELIST.trim().split(",") || "http://localhost:8080",
+    origin(origin, next) {
+        console.log(whitelist)
+        if (whitelist.includes(origin) || !origin) {
+            return next(null, true);
+        }
+        next(new Error("Origin not alowed"))
+    },
     maxAge: 3600,
 };
 app.use(compression())

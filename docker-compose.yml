@@ -31,3 +31,6 @@ services:
         image: tfgportscanner/portscanner-frontend:1.0.1
         ports:
             - "8002:80"
+        volumes: 
+            - ./envfile:/app/
+        command: quasar build && cp /app/dist/spa /usr/share/nginx/html

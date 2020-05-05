@@ -44,6 +44,7 @@ router.get(
     "/google",
     (req, res, next) => {
         const referer = req.get("referer");
+        console.log(req.headers)
         passport.authenticate("google", { scope: ["email", "profile"], state: `${referer}#/main` })(req, res, next)
     }
 );
@@ -60,6 +61,7 @@ router.get(
                 name: { givenName, familyName = "" },
             } = req.user;
             const userJson = req.user._json;
+            const environment = "";
             let existingUser = await userManager.findByEmail(email);
             if (!existingUser) {
                 await userManager.create({
@@ -74,7 +76,7 @@ router.get(
             await createImage(userJson.picture, existingUser._id);
 
             const token = tokenManager.create(existingUser);
-            res.status(200).redirect(`${req.query.state}?token=${token}`);
+            res.status(200).redirect(`${req.query.state}?token=${token}&environment=${environment}`);
         } catch (error) {
             res.status(500).json({ message: "Something went wrong" });
         }
