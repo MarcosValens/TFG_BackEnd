@@ -60,6 +60,7 @@ router.get(
                 provider,
                 name: { givenName, familyName = "" },
             } = req.user;
+            console.log(req);
             const userJson = req.user._json;
             const environment = "";
             let existingUser = await userManager.findByEmail(email);
