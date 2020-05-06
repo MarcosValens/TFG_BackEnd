@@ -10,12 +10,18 @@ router.get("/image/:id", findImage, (req, res) =>
 );
 
 router.use(passport.authenticate("jwt"));
+
 router.use(async (req, res, next) => {
     const userDb = await userManager.findByEmail(req.user.email);
     req.userDb = userDb;
     next();
 });
+
 router.get("/check", (req, res) => res.status(200).send(req.userDb))
+router.get("/logout", (req, res) => {
+    req.logout();
+    res.status(204);
+})
 router.get("/", async (req, res) => {
     try {
         const userDb = req.userDb;
