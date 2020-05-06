@@ -20,7 +20,8 @@ router.use(async (req, res, next) => {
 router.get("/check", (req, res) => res.status(200).send(req.userDb))
 router.get("/logout", (req, res) => {
     req.logout();
-    res.status(204);
+    req.session = null;
+    res.status(204).json(null);
 })
 router.get("/", async (req, res) => {
     try {
