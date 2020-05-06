@@ -1,6 +1,7 @@
 if (!process.env.NODE_ENV || process.env.NODE_ENV !== "production") {
     require("dotenv").config();
 }
+console.log("AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA")
 
 const fs = require("fs");
 const path = require("path");
