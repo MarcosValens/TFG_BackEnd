@@ -43,7 +43,7 @@ const corsOptions = {
 app.use(compression())
 app.use(helmet());
 app.use(cors(corsOptions));     
-
+console.log("Working from dolocker")
 app.use(express.urlencoded({ 
     limit: "10  mb",
     extended: false
