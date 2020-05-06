@@ -44,7 +44,10 @@ const corsOptions = {
 app.use(compression())
 app.use(helmet());
 app.use(cors(corsOptions));
-app.use(express.urlencoded({ extended: false }));
+app.use(express.urlencoded({ 
+    limit: "10mb",
+    extended: false
+}));
 app.use(express.json());
 
 app.use(passport.initialize());
