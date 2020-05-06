@@ -44,6 +44,7 @@ router.get(
     "/google",
     (req, res, next) => {
         const referer = req.get("referer");
+        console.log(req)
         passport.authenticate("google", { scope: ["email", "profile"], state: `${referer}#/main` })(req, res, next)
     }
 );
