@@ -43,12 +43,12 @@ const corsOptions = {
 app.use(compression())
 app.use(helmet());
 app.use(cors(corsOptions));     
-console.log("Working from dolocker")
+
 app.use(express.urlencoded({ 
-    limit: "10  mb",
+    limit: "50mb",
     extended: false
 }));
-app.use(express.json({ limit: "10mb"}));
+app.use(express.json({ limit: "50mb"}));
 
 app.use(passport.initialize());
 require("./config/passport-setup");
