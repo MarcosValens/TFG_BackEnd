@@ -33,6 +33,7 @@ router.get("/", async (req, res) => {
             name: userDb.name,
             surname: userDb.surname,
             networks: userDb.networks,
+            userAgreementAccepted: userDb.userAgreementAccepted
         };
         res.status(200).json(publicUser);
     } catch (ex) {
@@ -59,6 +60,14 @@ router.delete("/delete", async (req, res) => {
         res.status(500).json({ message: "OOPs Something went wrong" });
     }
 });
+
+router.get("/accept", async (req, res) => {
+    const user = req.userDb;
+    if (user.userAgreementAccepted) return res.status(204).json({ message: "You have accepted our agreement, no need to flood us." });
+    user.userAgreementAccepted = true;
+    await user.save();
+    res.status(200).json({ message: "Agreement accepted" });
+})
 
 router.post(
     "/update",

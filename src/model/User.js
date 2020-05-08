@@ -28,6 +28,10 @@ const userSchema = new mongoose.Schema({
         type: String,
         required: true
     },
+    userAgreementAccepted: {
+        type: Boolean,
+        default: false
+    },
     networks: [{
         type: mongoose.Schema.Types.ObjectId,
         ref: "network"
