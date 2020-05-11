@@ -13,6 +13,10 @@ const hostSchema = mongoose.Schema({
         type: Boolean,
         required: true
     },
+    macAddress: {
+        type: String,
+        default: ""
+    },
     ports: [portSchema]
 });
 
