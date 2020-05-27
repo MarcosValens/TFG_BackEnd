@@ -3,11 +3,20 @@ if (!process.env.NODE_ENV || process.env.NODE_ENV !== "production") {
 }
 
 const fs = require("fs");
-const path = require("path");   
+const path = require("path");
 const mongoose = require("mongoose");
 const express = require("express");
 
+// Socket server initialization
 const app = express();
+const server = require("http").createServer(app);
+const io = require("socket.io").listen(server);
+const handleConnection = require("./src/chat")
+// Overwrite the listen function and wrap it to a start function
+app.start = app.listen = function () {
+    return server.listen.apply(server, arguments);
+};
+
 const routes = require("./src/routes");
 const port = process.env.PORT || 8000;
 
@@ -35,21 +44,23 @@ const corsOptions = {
         if (whitelist.includes(origin) || !origin) {
             return next(null, true);
         }
-        next(new Error("Origin not alowed"))
+        next(new Error("Origin not alowed"));
     },
     maxAge: 3600,
 };
 
-app.use(compression())
+app.use(compression());
 app.use(helmet());
-app.use(cors(corsOptions));     
-console.log("Json is above now")
-app.use(express.json({ limit: "50mb"}));
+app.use(cors(corsOptions));
+console.log("Json is above now");
+app.use(express.json({ limit: "50mb" }));
 
-app.use(express.urlencoded({ 
-    limit: "50mb",
-    extended: false
-}));
+app.use(
+    express.urlencoded({
+        limit: "50mb",
+        extended: false,
+    })
+);
 
 app.use(passport.initialize());
 require("./config/passport-setup");
@@ -69,8 +80,9 @@ app.use(express.static(staticsPath));
 routes.forEach(({ path, router }) => app.use(`/${path}`, router));
 
 app.use(notFoundMiddleware);
+app.start(port);
 
-app.listen(port);
+io.on("connection", handleConnection.bind(io));
 
 const mongoUrl = `mongodb://${process.env.MONGO_USER}:${process.env.MONGO_PASSWORD}@mongo:27017/portscanner?authSource=admin`;
 
