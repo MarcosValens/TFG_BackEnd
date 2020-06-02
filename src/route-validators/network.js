@@ -13,9 +13,6 @@ module.exports = function ({ check, validationResult }) {
                 ),
             check("gateway")
                 .escape()
-                .custom((gateway) => {
-                    if (!gateway) return true;
-                }),
         ],
         update: [
             check("name")
@@ -31,12 +28,6 @@ module.exports = function ({ check, validationResult }) {
             check("gateway")
                 .isString()
                 .escape()
-                .custom((gateway) => {
-                    if (!gateway) return true;
-                    return !utils.isValidIp(gateway)
-                        ? Promise.reject("Please provide a valid IP address")
-                        : true;
-                }),
         ],
         validate(req) {
             return validationResult(req);
