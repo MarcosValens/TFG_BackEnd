@@ -15,7 +15,9 @@ async function areNewPorts(host, ports) {
     }).map(port => {
         const index = host.ports.map(({port}) => port).indexOf(port.port);
         const otherPort = host.ports[index];
-        otherPort.service = port.service;
+        if (!otherPort.service) {
+            otherPort.service = port.service;
+        }
         return otherPort
     })
     if (!portsThatAreNotRepeated.length) {
