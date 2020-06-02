@@ -115,3 +115,7 @@ dist
 .pnp.*
 
 .idea
+
+# Static folder
+static
+!static/default_avatar.jpg
