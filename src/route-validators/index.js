@@ -1,9 +1,7 @@
 const {check, validationResult} = require("express-validator");
-const {utils} = require("@rochismo/net-utils");
 const data = {
     check,
-    validationResult,
-    utils
+    validationResult
 }
 module.exports = {
     network: require("./network")(data),

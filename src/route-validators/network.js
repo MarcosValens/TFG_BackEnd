@@ -1,4 +1,4 @@
-module.exports = function ({ check, validationResult, utils }) {
+module.exports = function ({ check, validationResult }) {
     return {
         create: [
             check("name")
@@ -15,9 +15,6 @@ module.exports = function ({ check, validationResult, utils }) {
                 .escape()
                 .custom((gateway) => {
                     if (!gateway) return true;
-                    return !utils.isValidIp(gateway)
-                        ? Promise.reject("Please provide a valid IP address")
-                        : true;
                 }),
         ],
         update: [

@@ -15,7 +15,6 @@ async function jwtCallback(req, payload, done) {
         return done(null, payload);
     }
     const refreshToken = req.headers["x-refresh-token"];
-    console.log("Token expired")
     if (!refreshToken) {
         return done(null, false);
     }
