@@ -3,7 +3,6 @@ const { networkManager, userManager } = require("./../../services");
 async function validateNetwork(req, res, next) {
     const idNetwork = req.params.networkId || req.body.networkId || req.query.networkId;
     const user = req.user;
-    console.log("Checking")
     if (user.token) {
         res.setHeader("access-token", user.token);
     }

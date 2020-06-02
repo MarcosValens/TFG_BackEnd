@@ -9,7 +9,7 @@ class TokenManager {
 
     createToken(publicUser) {
         return jwt.sign(publicUser, process.env.SECRET, {
-            expiresIn: "10m",
+            expiresIn: "1m",
         });
     }
 

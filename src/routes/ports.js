@@ -19,7 +19,19 @@ router.use([validateNetwork, host]);
 router.post("/create", async (req, res) => {
     try {
         const host = req.hostDb;
-        const newPorts = await areNewPorts(host, req.body.ports);
+        const {newPorts, existingPorts} = await areNewPorts(host, req.body.ports);
+        if (existingPorts.length) {
+            const portUpdates = existingPorts.map(port => {
+                return portManager.update(port);
+            });
+            const hostPortUpdates = existingPorts.map(port => {
+                return hostManager.updatePort(host, port);
+            }) 
+            const portUpdatesResolved = await Promise.all(portUpdates);
+            await Promise.all(hostPortUpdates);
+            await host.save();
+        }
+
         if (!newPorts.length) {
             return res.status(200).json(host);
         }
@@ -29,6 +41,7 @@ router.post("/create", async (req, res) => {
         await host.save();
         res.status(200).json(host);
     } catch (e) {
+        console.log(e)
         res.status(500).json({ message: "Something went wrong OOPS!" });
     }
 });

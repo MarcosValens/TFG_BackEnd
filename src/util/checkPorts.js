@@ -3,18 +3,27 @@ const { portManager } = require("./../services");
 
 async function areNewPorts(host, ports) {
     if (!ports) {
-        return true;
+        return {newPorts: [], existingPorts: []};
     }
     const portsThatAreNotRepeated = ports.filter(newPort => {
         const portInPorts = host.ports.find(({port}) => port === parseInt(newPort.port));
         return !portInPorts;
     });
+    const repeatedPorts = ports.filter(newPort => {
+        const portInPorts = host.ports.find(({port}) => port === parseInt(newPort.port));
+        return !!portInPorts;
+    }).map(port => {
+        const index = host.ports.map(({port}) => port).indexOf(port.port);
+        const otherPort = host.ports[index];
+        otherPort.service = port.service;
+        return otherPort
+    })
     if (!portsThatAreNotRepeated.length) {
-        return true;
+        return {newPorts: [], existingPorts: repeatedPorts};
     }
+
     const newPorts = await portManager.create(portsThatAreNotRepeated);
-    
-    return newPorts;
+    return {newPorts, existingPorts: repeatedPorts};
 }
 
 module.exports = { areNewPorts };
