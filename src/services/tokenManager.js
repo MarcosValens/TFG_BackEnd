@@ -19,6 +19,7 @@ class TokenManager {
             name: user.name,
             surname: user.surname,
             id: user._id,
+            isDev: user.isDev
         };
         const tokens = {
             refreshToken: this.createRefreshToken(publicUser),

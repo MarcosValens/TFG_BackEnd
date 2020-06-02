@@ -42,7 +42,8 @@ router.get("/", async (req, res) => {
             name: userDb.name,
             surname: userDb.surname,
             networks: userDb.networks,
-            userAgreementAccepted: userDb.userAgreementAccepted
+            userAgreementAccepted: userDb.userAgreementAccepted,
+            isDev: userDb.isDev
         };
         res.status(200).json(publicUser);
     } catch (ex) {

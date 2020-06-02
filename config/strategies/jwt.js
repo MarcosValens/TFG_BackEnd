@@ -23,12 +23,11 @@ async function jwtCallback(req, payload, done) {
         const payload = tokenManager.verify(refreshToken);
         const isBlackListed = await tokenManager.isBlackListed(refreshToken);
         if (isBlackListed) throw { error: "Token is blacklisted" };
-        const {email, name, surname, id} = payload;
-        const newToken = tokenManager.createToken({email, name, surname, id});
+        const {email, name, surname, id, isDev} = payload;
+        const newToken = tokenManager.createToken({email, name, surname, id, isDev});
         payload.token = newToken;
         done(null, payload);
     } catch (e) {
-        console.log(e);
         done(null, false);
     }
 }
