@@ -19,6 +19,7 @@ async function jwtCallback(req, payload, done) {
         return done(null, false);
     }
     try {
+        // This shall throw an error if the token is not valid
         const payload = tokenManager.verify(refreshToken);
         const isBlackListed = await tokenManager.isBlackListed(refreshToken);
         if (isBlackListed) throw { error: "Token is blacklisted" };
