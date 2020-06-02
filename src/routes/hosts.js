@@ -19,6 +19,7 @@ router.post("/create", async (req, res) => {
     const hostsFromRequest = req.body.host || req.body.hosts;
     const hostsCreated = await hostManager.create(hostsFromRequest);
     const network = req.network;
+
     hostsCreated.forEach((host) => network.hosts.push(host));
     await network.save();
     res.status(200).json(hostsCreated);

@@ -35,8 +35,8 @@ router.post("/local", login.local, (req, res, next) => {
         if (err || !user) {
             return res.status(401).json({ message: "Failed to log in" });
         }
-        const token = tokenManager.create(user);
-        res.status(200).json({ token });
+        const {token, refreshToken} = tokenManager.create(user);
+        res.status(200).json({ token, refreshToken });
     })(req, res, next);
 });
 
@@ -74,8 +74,8 @@ router.get(
             existingUser = await userManager.findByEmail(email);
             await createImage(userJson.picture, existingUser._id);
 
-            const token = tokenManager.create(existingUser);
-            res.status(200).redirect(`${req.query.state}?token=${token}&environment=${environment}`);
+            const {token, refreshToken} = tokenManager.create(existingUser);
+            res.status(200).redirect(`${req.query.state}?token=${token}&refresh_token=${refreshToken}`);
         } catch (error) {
             res.status(500).json({ message: "Something went wrong" });
         }
