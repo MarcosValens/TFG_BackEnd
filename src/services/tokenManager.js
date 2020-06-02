@@ -37,7 +37,6 @@ class TokenManager {
 
     async invalidate(token) {
         const blackList = await this.isBlackListed(token);
-        console.log(blackList)
         if (!blackList) {
             const mongooseToken = await Token.create({
                 blackListedToken: token

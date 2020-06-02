@@ -16,6 +16,7 @@ router.delete("/invalidate", async (req, res) => {
     try {
         tokenManager.verify(refreshToken)
         await tokenManager.invalidate(refreshToken)
+        res.status(200).json(200);
     } catch(e) {
         return res.status(204).json(null);
     }
