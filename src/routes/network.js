@@ -78,6 +78,7 @@ router.get("/all", async (req, res) => {
 
 // OK
 router.get("/:networkId", validateNetwork, async (req, res) => {
+
     const network = req.network;
     const hosts = await hostManager.findByIds(network.hosts);
     if (!network) {

@@ -28,7 +28,7 @@ const whitelist = process.env.WHITELIST.trim().split(",");
 
 const corsOptions = {
     allowedHeaders:
-        "Authorization, Origin, X-Requested-With, Content-Type, Accept",
+        "Authorization, Origin, X-Requested-With, Content-Type, Accept, X-Refresh-Token, access-token",
     allowedMethods: "GET, POST, PUT, DELETE, OPTIONS",
     credentials: true,
     origin(origin, next) {
@@ -37,13 +37,14 @@ const corsOptions = {
         }
         next(new Error("Origin not alowed"))
     },
+    exposedHeaders: "access-token",
     maxAge: 3600,
 };
 
 app.use(compression())
 app.use(helmet());
 app.use(cors(corsOptions));     
-console.log("Json is above now")
+
 app.use(express.json({ limit: "50mb"}));
 
 app.use(express.urlencoded({ 

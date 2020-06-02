@@ -3,6 +3,9 @@ const { networkManager, userManager } = require("./../../services");
 async function validateNetwork(req, res, next) {
     const idNetwork = req.params.networkId || req.body.networkId || req.query.networkId;
     const user = req.user;
+    if (user.token) {
+        res.setHeader("access-token", user.token);
+    }
     const userFromDB = await userManager.findByEmail(user.email);
 
     if (!userFromDB || !user) {

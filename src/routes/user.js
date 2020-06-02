@@ -1,28 +1,37 @@
 const router = require("express").Router();
 const passport = require("passport");
-const { userManager, networkManager } = require("./../services");
+const { userManager, networkManager, tokenManager } = require("./../services");
 const { wipe } = require("./../util/index").delete.networks;
 const { upload, findImage, deleteImage } = require("./../middlewares");
 const { user } = require("./../route-validators");
-
 router.get("/image/:id", findImage, (req, res) =>
     res.status(200).sendFile(req.image)
 );
 
+router.delete("/invalidate", async (req, res) => {
+    const refreshToken = req.headers["x-refresh-token"];
+    if (!refreshToken) {
+        return res.status(204).json({message: "No Token found"})
+    }
+    try {
+        tokenManager.verify(refreshToken)
+        await tokenManager.invalidate(refreshToken)
+    } catch(e) {
+        return res.status(204).json(null);
+    }
+})
 router.use(passport.authenticate("jwt"));
-
 router.use(async (req, res, next) => {
     const userDb = await userManager.findByEmail(req.user.email);
+    if (req.user.token) {
+        res.setHeader("access-token", req.user.token)
+    }
     req.userDb = userDb;
     next();
 });
 
-router.get("/check", (req, res) => res.status(200).send(req.userDb))
-router.get("/logout", (req, res) => {
-    req.logout();
-    req.session = null;
-    res.status(204).json(null);
-})
+router.get("/check", (req, res) => res.status(200).send(req.userDb));
+
 router.get("/", async (req, res) => {
     try {
         const userDb = req.userDb;
