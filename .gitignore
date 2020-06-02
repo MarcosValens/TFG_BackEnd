@@ -117,5 +117,5 @@ dist
 .idea
 
 # Static folder
-static
+static/*
 !static/default_avatar.jpg
