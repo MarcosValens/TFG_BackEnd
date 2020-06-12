@@ -18,6 +18,7 @@ class UserManager {
             await (await User.create(userData)).save();
             return true;
         } catch (ex) {
+            console.log(ex)
             return null;
         }
     }

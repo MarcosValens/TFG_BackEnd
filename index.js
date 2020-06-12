@@ -87,13 +87,17 @@ io.on("connection", handleConnection.bind(io));
 
 const mongoUrl = `mongodb://${process.env.MONGO_USER}:${process.env.MONGO_PASSWORD}@mongo:27017/portscanner?authSource=admin`;
 
-mongoose.connect(
-    process.env.MONGO_URL || mongoUrl,
-    {
-        useNewUrlParser: true,
-        useUnifiedTopology: true,
-        useCreateIndex: true,
-        useFindAndModify: true,
-    },
-    () => console.log("Connected to DB!")
-);
+try {
+    mongoose.connect(
+        process.env.MONGO_URL || mongoUrl,
+        {
+            useNewUrlParser: true,
+            useUnifiedTopology: true,
+            useCreateIndex: true,
+            useFindAndModify: true,
+        },
+        () => console.log("Connected to DB!")
+    );
+} catch(e) {
+    console.log(e)
+}
