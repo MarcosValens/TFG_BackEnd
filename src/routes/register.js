@@ -12,7 +12,7 @@ router.post("/", register.register, async (req, res) => {
     userData.issuer = "local";
     const userWasCreated = await userManager.create(userData);
     if (!userWasCreated) {
-        return res.status(500).json({ message: "Could not create user. Soz!" });
+        return res.status(500).json({ message: "Could not create user." });
     }
     res.status(200).json({ success: "User created sulucesefuly" });
 });

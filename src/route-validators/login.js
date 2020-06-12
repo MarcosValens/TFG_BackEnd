@@ -6,12 +6,9 @@ module.exports = function ({ check, validationResult }) {
                 .withMessage("Please enter a valid email")
                 .isLength({ min: 5, max: 254 })
                 .withMessage("Email length must be of 5 or 254")
-                .normalizeEmail()
                 .not()
                 .isEmpty()
-                .withMessage("Email cannot be empty")
-                .trim()
-                .escape(),
+                .withMessage("Email cannot be empty"),
             check("password")
                 .isLength({ min: 8, max: 50 })
                 .withMessage(
